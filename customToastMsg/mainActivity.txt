@@ -1,0 +1,44 @@
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void btnClicked(View view) {
+
+        /*As Google blocked Custom messages from background in Android 11+, we need an alternative way to create custom messages.
+        An efficient way to do this is to create a custom layout, and bind this to your toast message*/
+
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_custom, // this is the custom layout I created. You can find the file under res\layout
+                null); // if you give an id to your layout, the null value can be replaced with the id of the layout
+
+        TextView text = (TextView) layout.findViewById(R.id.toastMessage); //this is the textView inside toast_custom.xml
+        text.setText("Hello! This is a custom toast!");
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+
+    }
+
+
+
+}
