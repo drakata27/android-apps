@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/app_name"
+        android:fadeScrollbars="false"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbarSize="10dip"
+        android:scrollbars="horizontal"
+        android:smoothScrollbar="true">
+
+
+        <LinearLayout
+            android:id="@+id/horizontal_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:src="@drawable/chinchilla" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:src="@drawable/kapibara" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:src="@drawable/hedgehog" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:src="@drawable/hamster" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:src="@drawable/ferret" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:src="@drawable/rabbit" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</LinearLayout>

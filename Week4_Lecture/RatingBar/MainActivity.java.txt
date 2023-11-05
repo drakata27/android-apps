@@ -1,0 +1,68 @@
+package com.example.ratingbarex;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    RatingBar myRatingBar; TextView txtResult; Button btnSubmit;
+    String output = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        myRatingBar = findViewById(R.id.myRatingBar);
+        txtResult = findViewById(R.id.txtResult);
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        txtResult.setText(null);
+
+        //onRatingChanged
+        myRatingBar.setOnRatingBarChangeListener((ratingBar, userRating, userTouch) -> {
+            if (userTouch) {
+                if (userRating == 1)
+                    output = "very poor";
+                else if (userRating == 2)
+                    output = "poor";
+                else if (userRating == 3)
+                    output = "average";
+                else if (userRating == 4)
+                    output = "good";
+                else if (userRating == 5)
+                    output = "very good";
+
+                Toast.makeText(getApplicationContext(), output,Toast.LENGTH_LONG).show();
+            }});// onRatingBarChangeListener
+
+    }
+
+    public void ratingShow(View view) {
+
+        if (myRatingBar.getRating() == 0)
+            Toast.makeText(getApplicationContext(), "Make sure to select a rating",Toast.LENGTH_LONG).show();
+        else
+            txtResult.setText("Your score is :"+ output);
+    }
+
+    public void ratingReset(View view) {
+        myRatingBar.setRating(0);
+        txtResult.setText(null);
+    }
+}
+
+
+
+
+
+
+
+
+

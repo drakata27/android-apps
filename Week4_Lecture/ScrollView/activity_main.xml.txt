@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ScrollView android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="20dip"
+        android:smoothScrollbar="true"
+        android:layout_gravity="center">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView android:id="@+id/myTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/star_wars_title"
+                android:layout_gravity="clip_horizontal"
+                android:gravity="clip_horizontal"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                android:textSize="44sp"/>
+
+            <TextView android:id="@+id/myText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/star_wars"
+                android:layout_gravity="clip_horizontal"
+                android:gravity="clip_horizontal"
+                android:layout_margin="10dp"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</FrameLayout>
