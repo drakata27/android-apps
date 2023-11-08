@@ -45,16 +45,16 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_c"
+                android:id="@+id/button_ac"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 app:cornerRadius="36dp"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-                android:textSize="32dp"
+                android:textSize="20dp"
                 android:layout_margin="12dp"
                 android:backgroundTint="#F44336"
                 android:onClick="onClick"
-                android:text="C"/>
+                android:text="AC"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_open_bracket"
@@ -256,20 +256,8 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_ac"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                app:cornerRadius="36dp"
-                style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-                android:textSize="20dp"
-                android:layout_margin="12dp"
-                android:backgroundTint="#F44336"
-                android:onClick="onClick"
-                android:text="AC"/>
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_0"
-                android:layout_width="72dp"
+                android:layout_width="165dp"
                 android:layout_height="72dp"
                 app:cornerRadius="36dp"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"

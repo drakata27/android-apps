@@ -11,6 +11,8 @@ import com.google.android.material.button.MaterialButton;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityMainBinding binding;
 
@@ -42,16 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if (buttonText.equals("C")) {
-            try {
-                dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length() - 1);
-            } catch (Exception e) {
-                binding.solutionTv.setText("0");
-                binding.resultTv.setText("0");
-            }
-        } else {
-            dataToCalculate += buttonText;
-        }
+//        if (buttonText.equals("C") & dataToCalculate.length() >= 0) {
+//            dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length() - 1);
+//        } else {
+//        }
+        dataToCalculate += buttonText;
 
         binding.solutionTv.setText(dataToCalculate);
 
@@ -68,9 +65,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             context.setOptimizationLevel(-1);
             Scriptable scriptable = context.initStandardObjects();
             String finalResult = context.evaluateString(scriptable, data, "JavaScript", 1, null).toString();
+
             if(finalResult.endsWith(".0")){
                 finalResult = finalResult.replace(".0","");
             }
+
+            double resultValue = Double.parseDouble(finalResult);
+            DecimalFormat decimalFormat = new DecimalFormat("#.#######");
+            finalResult = decimalFormat.format(resultValue);
+
             return finalResult;
         } catch (Exception e) {
             return "Error";
