@@ -9,40 +9,59 @@ import android.view.View;
 import com.example.calculator.databinding.ActivityMainBinding;
 import com.google.android.material.button.MaterialButton;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityMainBinding binding;
-    String resultText;
-    String solutionText;
+    String initialNumText;
+    String chainNumText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        DecimalFormat decimalFormat = new DecimalFormat("#.########");
+        initialNumText = binding.initialNum.getText().toString();
+        chainNumText = "0";
 
-        resultText = binding.resultTv.getText().toString();
-        solutionText = binding.solutionTv.getText().toString();
+        Log.d("InitNum in on create", "InitNum " + initialNumText);
 
+        // clear
         binding.buttonAc.setOnClickListener(v -> {
-            binding.solutionTv.setText("");
-            binding.resultTv.setText("0");
+            binding.chainNum.setText("");
+            binding.initialNum.setText("0");
+            initialNumText = "0";
+            chainNumText = "0";
         });
 
+        // addition
         binding.buttonAdd.setOnClickListener(v -> {
-            if (!resultText.equals("0")) {
-                solutionText = resultText;
-                resultText = "0";
+            double sum = Double.parseDouble(binding.initialNum.getText().toString()) + Double.parseDouble(chainNumText);
 
-                int sum = 0;
-                sum = Integer.parseInt(solutionText) + Integer.parseInt(resultText);
-                Log.d("Sum", "Sum " + sum);
+            if (binding.chainNum.getText().toString().contains("=")) {
+                chainNumText = binding.initialNum.getText().toString();
+            } else {
+                chainNumText = decimalFormat.format(sum);
+            }
+            binding.chainNum.setText(chainNumText  + " +");
+            binding.initialNum.setText("0");
+            initialNumText = "0";
+        });
 
+        // equals
+        binding.buttonEquals.setOnClickListener(v -> {
+            double sum = Double.parseDouble(chainNumText) + Double.parseDouble(initialNumText);
+            binding.chainNum.setText(chainNumText + " + " + initialNumText + " =");
+            binding.initialNum.setText(decimalFormat.format(sum));
 
-                binding.solutionTv.setText(solutionText);
-                binding.resultTv.setText(""+sum);
+            // TODO test
+            if (binding.chainNum.getText().toString().contains("=")) {
+                chainNumText = decimalFormat.format(sum);
             }
         });
     }
@@ -53,11 +72,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String buttonText = button.getText().toString();
 
 
-        if (resultText.equals("0")) {
-            resultText = buttonText;
-        } else {
-            resultText += buttonText;
+
+        // TODO test
+        if (binding.chainNum.getText().toString().contains("=")) {
+            binding.chainNum.setText("");
+            initialNumText = "";
+            chainNumText = "0";
         }
-        binding.resultTv.setText(resultText);
+
+        if (initialNumText.length() < 10) {
+            if (initialNumText.equals("0")) {
+                initialNumText = buttonText;
+            } else {
+                initialNumText += buttonText;
+            }
+        }
+
+        binding.initialNum.setText(initialNumText);
     }
 }
