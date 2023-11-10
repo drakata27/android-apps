@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     // If there are no characters remaining, set the text to "0"
                     binding.initialNum.setText("0");
+                    initialNumText = "0";
                 }
             }
         });
@@ -100,42 +101,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.buttonMultiply.setOnClickListener(v -> {
             currentOperation = "*";
 
-//            double product = Double.parseDouble(binding.initialNum.getText().toString()) * Double.parseDouble(chainNumText);
+//            multiCount ++;
+
+//            initialNumText = binding.initialNum.getText().toString();
+//            binding.initialNum.setText(initialNumText);
 //
-//            if (binding.chainNum.getText().toString().contains("=")) {
-//                chainNumText = binding.initialNum.getText().toString();
-//            } else {
-//                chainNumText = decimalFormat.format(product);
-//            }
-//            binding.chainNum.setText(chainNumText  + " *");
-//            binding.initialNum.setText("0");
+//            chainNumText = binding.initialNum.getText().toString();
+//            binding.chainNum.setText(chainNumText + " *");
+//
+//            double product = Double.parseDouble(initialNumText) * Double.parseDouble(chainNumText);
+//            binding.chainNum.setText(decimalFormat.format(product));
+//
+//            binding.initialNum.setText(initialNumText);
 //            initialNumText = "0";
 
-            multiCount ++;
 
+            multiCount++;
+            binding.chainNum.setText(binding.initialNum.getText().toString() + " *");
+            chainNumText = binding.initialNum.getText().toString();
 
-
-            if (multiCount > 0) {
-                chainNumText = binding.initialNum.getText().toString();
-                binding.chainNum.setText(chainNumText + " *");
-
-                initialNumText = binding.initialNum.getText().toString();
-                binding.initialNum.setText(initialNumText);
-
-                binding.initialNum.setText("0");
-                initialNumText = "0";
-            }
-
-            double product = Double.parseDouble(binding.initialNum.getText().toString()) * Double.parseDouble(chainNumText);
-            if (multiCount > 2) {
-                binding.chainNum.setText(decimalFormat.format(product) + " *");
+            binding.initialNum.setText(initialNumText);
+            initialNumText = "0";
+            double product = Double.parseDouble(chainNumText) * Double.parseDouble(initialNumText);
+//
+            if (multiCount >= 2){
+                product = Double.parseDouble(chainNumText) * Double.parseDouble(initialNumText);
+                binding.chainNum.setText(decimalFormat.format(product));
                 multiCount = 0;
             }
-            Log.d("multiCount", String.valueOf(multiCount));
-            Log.d("initNumText", String.valueOf(initialNumText));
-            Log.d("chainNumText", String.valueOf(chainNumText));
-            Log.d("product", String.valueOf(product));
 
+
+
+            Log.d("binding.chainNum", binding.chainNum.getText().toString());
+            Log.d("chainNumText", chainNumText);
+            Log.d("binding.initialNum", binding.initialNum.getText().toString());
+            Log.d("initialNumText", initialNumText);
+            Log.d("prod", String.valueOf(product));
+            Log.d("multiCount", String.valueOf(multiCount));
         });
 
         // equals
@@ -157,6 +159,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO test
                 if (binding.chainNum.getText().toString().contains("=")) {
                     chainNumText = decimalFormat.format(diff);
+                }
+            } else if (currentOperation.equals("*")) {
+                double product = Double.parseDouble(initialNumText) * Double.parseDouble(chainNumText);
+                binding.chainNum.setText(chainNumText + " * " + initialNumText + " =");
+                binding.initialNum.setText(decimalFormat.format(product));
+
+                // TODO test
+                if (binding.chainNum.getText().toString().contains("=")) {
+                    chainNumText = decimalFormat.format(product);
                 }
             }
         });
@@ -181,6 +192,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 initialNumText += buttonText;
             }
         }
+        Log.d("initialNumText pressed", initialNumText);
+        Log.d("binding.initialNum pressed", binding.initialNum.getText().toString());
         binding.initialNum.setText(initialNumText);
     }
+
 }
