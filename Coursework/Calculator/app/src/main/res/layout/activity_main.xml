@@ -57,28 +57,28 @@
                 android:text="AC"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_open_bracket"
+                android:id="@+id/button_ce"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 app:cornerRadius="36dp"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-                android:textSize="32dp"
+                android:textSize="20dp"
                 android:layout_margin="12dp"
-                android:backgroundTint="#A1A1A1"
+                android:backgroundTint="#F44336"
                 android:onClick="onClick"
-                android:text="("/>
+                android:text="CE"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_closed_bracket"
+                android:id="@+id/button_delete"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 app:cornerRadius="36dp"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
                 android:textSize="32dp"
                 android:layout_margin="12dp"
-                android:backgroundTint="#A1A1A1"
+                android:backgroundTint="#F44336"
                 android:onClick="onClick"
-                android:text=")"/>
+                android:text="\u232b"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_divide"
