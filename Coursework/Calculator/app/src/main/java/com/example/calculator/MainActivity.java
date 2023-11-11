@@ -39,12 +39,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             binding.initialNum.setText("0");
             initialNumText = "0";
             chainNumText = "0";
+            multiCount = 0;
         });
 
         // clear entry
         binding.buttonCe.setOnClickListener(v -> {
             binding.initialNum.setText("0");
             initialNumText = "0";
+            multiCount = 0;
         });
 
         // delete
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (currentText.length() > 0) {
                     // If there are characters remaining, update the text
                     binding.initialNum.setText(currentText);
+                    initialNumText = currentText;  // Save the updated text to initialNumText
                 } else {
                     // If there are no characters remaining, set the text to "0"
                     binding.initialNum.setText("0");
@@ -100,44 +103,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // multiplication
         binding.buttonMultiply.setOnClickListener(v -> {
             currentOperation = "*";
-
-//            multiCount ++;
-
-//            initialNumText = binding.initialNum.getText().toString();
-//            binding.initialNum.setText(initialNumText);
-//
-//            chainNumText = binding.initialNum.getText().toString();
-//            binding.chainNum.setText(chainNumText + " *");
-//
-//            double product = Double.parseDouble(initialNumText) * Double.parseDouble(chainNumText);
-//            binding.chainNum.setText(decimalFormat.format(product));
-//
-//            binding.initialNum.setText(initialNumText);
-//            initialNumText = "0";
-
-
             multiCount++;
-            binding.chainNum.setText(binding.initialNum.getText().toString() + " *");
-            chainNumText = binding.initialNum.getText().toString();
 
-            binding.initialNum.setText(initialNumText);
-            initialNumText = "0";
-            double product = Double.parseDouble(chainNumText) * Double.parseDouble(initialNumText);
-//
-            if (multiCount >= 2){
-                product = Double.parseDouble(chainNumText) * Double.parseDouble(initialNumText);
-                binding.chainNum.setText(decimalFormat.format(product));
-                multiCount = 0;
+            if (multiCount == 1) {
+                binding.chainNum.setText(binding.initialNum.getText().toString() + " *");
+                chainNumText = binding.initialNum.getText().toString();
+
+                initialNumText = "0";
+                binding.initialNum.setText(initialNumText);
+
             }
 
+            double product = Double.parseDouble(chainNumText) * Double.parseDouble(initialNumText);
 
+            if (multiCount == 2) {
 
-            Log.d("binding.chainNum", binding.chainNum.getText().toString());
-            Log.d("chainNumText", chainNumText);
-            Log.d("binding.initialNum", binding.initialNum.getText().toString());
-            Log.d("initialNumText", initialNumText);
-            Log.d("prod", String.valueOf(product));
-            Log.d("multiCount", String.valueOf(multiCount));
+                if (binding.chainNum.getText().toString().contains("=")) {
+                    product = Double.parseDouble(binding.initialNum.getText().toString());
+                }
+
+                binding.chainNum.setText(decimalFormat.format(product) + " *");
+
+                initialNumText = "0";
+                chainNumText = binding.initialNum.getText().toString();
+
+            }
+
+            if (multiCount > 2) {
+                if (binding.chainNum.getText().toString().contains("=")) {
+                    product = Double.parseDouble(binding.initialNum.getText().toString());
+                } else {
+                    product = Double.parseDouble(chainNumText) * Double.parseDouble(binding.initialNum.getText().toString());
+                }
+
+                binding.chainNum.setText(decimalFormat.format(product) + " *");
+                chainNumText = decimalFormat.format(product);
+
+                binding.initialNum.setText("0");
+                initialNumText = "0";
+            }
+        });
+
+        binding.buttonDivide.setOnClickListener(v -> {
+            currentOperation = "/";
+
+            double divisor = Double.parseDouble(binding.initialNum.getText().toString());
+
+            if (binding.chainNum.getText().toString().contains("=")) {
+                chainNumText = binding.initialNum.getText().toString();
+            } else {
+                chainNumText = decimalFormat.format(divisor);
+            }
+            binding.chainNum.setText(chainNumText + " /");
+            binding.initialNum.setText("0");
+            initialNumText = "0";
         });
 
         // equals
@@ -169,6 +188,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (binding.chainNum.getText().toString().contains("=")) {
                     chainNumText = decimalFormat.format(product);
                 }
+            } else if (currentOperation.equals("/")) {
+                double divisor = Double.parseDouble(initialNumText);
+                double result = Double.parseDouble(chainNumText) / divisor;
+
+                // Update the UI with the division result
+                binding.chainNum.setText(chainNumText + " / " + initialNumText + " =");
+                binding.initialNum.setText(decimalFormat.format(result));
+
+                // Reset operation
+                currentOperation = "";
             }
         });
     }
@@ -192,8 +221,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 initialNumText += buttonText;
             }
         }
-        Log.d("initialNumText pressed", initialNumText);
-        Log.d("binding.initialNum pressed", binding.initialNum.getText().toString());
         binding.initialNum.setText(initialNumText);
     }
 
