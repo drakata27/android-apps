@@ -7,10 +7,10 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/chain_num"
+        android:id="@+id/chain_num_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/input_num"
+        android:layout_above="@id/input_num_tv"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -20,7 +20,7 @@
         android:textSize="32dp" />
 
     <TextView
-        android:id="@+id/input_num"
+        android:id="@+id/input_num_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0"
