@@ -15,6 +15,13 @@
         android:textColor="@color/black"
         android:text="Welcome,"/>
 
+    <ImageView
+        android:layout_width="224dp"
+        android:layout_height="224dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:src="@drawable/admin_profile"/>
+
     <TextView
         android:id="@+id/username"
         android:layout_width="match_parent"
@@ -24,7 +31,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="Admin"/>
+        android:text="admin"/>
 
     <TextView
         android:layout_width="wrap_content"

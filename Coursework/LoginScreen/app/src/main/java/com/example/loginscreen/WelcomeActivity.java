@@ -29,7 +29,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // log out
         binding.logOutBtn.setOnClickListener(v -> {
-            Toast.makeText(this, "Logging Out...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You have been logged out", Toast.LENGTH_SHORT).show();
             startActivity(logOutIntent);
         });
     }

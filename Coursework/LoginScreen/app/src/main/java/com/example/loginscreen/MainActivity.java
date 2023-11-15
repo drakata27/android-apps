@@ -12,14 +12,15 @@ import com.example.loginscreen.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int attempts;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        username = "admin";
 
         Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
 
@@ -31,19 +32,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
      private boolean validateUsername() {
-         String username = binding.textInputUsername.getEditText().getText().toString().trim();
+         String usernameText = binding.textInputUsername.getEditText().getText().toString().trim();
 
-         if (username.isEmpty()) {
+
+         if (usernameText.isEmpty()) {
              binding.textInputUsername.setError("Field cannot be empty");
              return false;
-         } else if (username.length() < 4) {
+         } else if (usernameText.length() < 4) {
              binding.textInputUsername.setError("Username is too short");
              return false;
-         } else if (username.length() > 20) {
+         } else if (usernameText.length() > 20) {
              binding.textInputUsername.setError("Username is too long");
              return false;
-         } else if (!username.equals("admin")) {
-             binding.textInputUsername.setError("Wrong username");
+         } else if (!usernameText.equals(username)) {
+             wrongCredentials();
              return false;
          } else {
              binding.textInputUsername.setError(null);
@@ -52,19 +54,20 @@ public class MainActivity extends AppCompatActivity {
      }
 
      private boolean validatePassword() {
-        String password = binding.textInputPassword.getEditText().getText().toString().trim();
+        String passwordText = binding.textInputPassword.getEditText().getText().toString().trim();
+        String password = "admin";
 
-         if (password.isEmpty()) {
+         if (passwordText.isEmpty()) {
              binding.textInputPassword.setError("Field cannot be empty");
              return false;
-         } else if (password.length() < 4) {
+         } else if (passwordText.length() < 4) {
              binding.textInputPassword.setError("Password is too short");
              return false;
-         } else if (password.length() > 20) {
+         } else if (passwordText.length() > 20) {
              binding.textInputPassword.setError("Password is too long");
              return false;
-         } else if (!password.equals("admin")) {
-             binding.textInputPassword.setError("Wrong password");
+         } else if (!passwordText.equals(password)) {
+             wrongCredentials();
              return false;
          } else {
              binding.textInputPassword.setError(null);
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         if (!validateUsername() | !validatePassword()) {
             attempts -= 1;
         } else {
-            intent.putExtra("username", binding.textInputUsername.getEditText().getText());
+            intent.putExtra("username", username);
             Toast.makeText(this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         }
@@ -99,5 +102,11 @@ public class MainActivity extends AppCompatActivity {
      private void clearInput() {
         binding.textInputUsername.getEditText().setText("");
         binding.textInputPassword.getEditText().setText("");
+     }
+
+     private void wrongCredentials() {
+         binding.textInputUsername.setError("Wrong credentials");
+         binding.textInputPassword.setError("Wrong credentials");
+
      }
 }
