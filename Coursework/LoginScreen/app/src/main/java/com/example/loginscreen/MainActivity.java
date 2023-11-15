@@ -16,12 +16,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // initialise intent
         Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
 
         attempts = 3;
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
          String username = binding.textInputUsername.getEditText().getText().toString().trim();
 
          if (username.isEmpty()) {
-             binding.textInputUsername.setError("Field can't be empty");
+             binding.textInputUsername.setError("Field cannot be empty");
              return false;
          } else if (username.length() < 4) {
              binding.textInputUsername.setError("Username is too short");
@@ -82,13 +81,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        if (attempts == 2) {
-            binding.attempts.setTextColor(ContextCompat.getColor(this, R.color.orange));
-        } else if (attempts == 1) {
-            binding.attempts.setTextColor(ContextCompat.getColor(this, R.color.red));
-        } else if (attempts == 0) {
-             Toast.makeText(this, "No more attempts left", Toast.LENGTH_LONG).show();
-             this.finishAffinity();
+         switch (attempts) {
+             case 2:
+                 binding.attempts.setTextColor(ContextCompat.getColor(this, R.color.orange));
+                 break;
+             case 1:
+                 binding.attempts.setTextColor(ContextCompat.getColor(this, R.color.red));
+                 break;
+             case 0:
+                 Toast.makeText(this, "No more attempts left", Toast.LENGTH_LONG).show();
+                 this.finishAffinity();
+                 break;
          }
         binding.attempts.setText("" + attempts);
      }
