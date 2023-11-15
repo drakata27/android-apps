@@ -15,7 +15,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         // binding
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
@@ -31,7 +30,6 @@ public class DetailActivity extends AppCompatActivity {
 
         int imageResource = getIntent().getIntExtra("imageRes", 0);
         binding.logo.setImageResource(imageResource);
-
 
         binding.back.setOnClickListener(v -> {
             startActivity(back);
