@@ -4,24 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.itemscatalogue.databinding.ActivityMainBinding;
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    String[] details;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
 
         // binding
         com.example.itemscatalogue.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // initialise intent
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent = new Intent(MainActivity.this, DetailActivity.class);
 
-        String[] details = new String[] {
+        details = new String[] {
                 "Arsenal Football Club is an English professional football club based in Holloway, North London. Arsenal compete in the Premier League, the top flight of English football. The club has won 13 league titles (including one unbeaten title), a record 14 FA Cups, two League Cups, 17 FA Community Shields, the Football League Centenary Trophy, one European Cup Winners' Cup and one Inter-Cities Fairs Cup. In terms of trophies won, it is the third-most successful club in English football.",
                 "Chelsea Football Club is an English professional football club based in Fulham, West London. Founded in 1905, the team play their home games at Stamford Bridge. The club competes in the Premier League, the top division of English football. It won its first major honour, the League championship, in 1955. The club won the FA Cup for the first time in 1970, their first European honour, the Cup Winners' Cup, in 1971, and became the third English club to win the Club World Cup in 2022.",
                 "Liverpool Football Club is a professional football club based in Liverpool, England. The club competes in the Premier League, the top tier of English football. Founded in 1892, the club joined the Football League the following year and has played its home games at Anfield since its formation.",
@@ -43,9 +48,47 @@ public class MainActivity extends AppCompatActivity {
         binding.spurs.setOnClickListener(v -> passData(intent, R.drawable.spurs, details[5]));
 
     }
+    @Override
+    public void onClick(View v) {
+        String clubName = "";
+        if (v instanceof Button) {
+            LinearLayout parentLayout = (LinearLayout) v.getParent();
+
+            // Assuming the club name is the second TextView in the layout
+            TextView clubNameTextView = (TextView) parentLayout.getChildAt(1);
+
+            if (clubNameTextView != null) {
+                clubName = clubNameTextView.getText().toString();
+            }
+
+            switch (clubName) {
+                case "Arsenal":
+                    passData(intent, R.drawable.arsenal, details[0]);
+                    break;
+                case "Chelsea":
+                    passData(intent, R.drawable.chelsea, details[1]);
+                    break;
+                case "Liverpool FC":
+                    passData(intent, R.drawable.lfc, details[2]);
+                    break;
+                case "Man City":
+                    passData(intent, R.drawable.man_city, details[3]);
+                    break;
+                case "Man United":
+                    passData(intent, R.drawable.man_utd, details[4]);
+                    break;
+                case "Tottenham Hotspur":
+                    passData(intent, R.drawable.spurs, details[5]);
+                    break;
+            }
+        }
+    }
+
+    
     public void passData(Intent intent, int img , String details) {
         intent.putExtra("key", details);
         intent.putExtra("imageRes", img);
         startActivity(intent);
     }
+
 }

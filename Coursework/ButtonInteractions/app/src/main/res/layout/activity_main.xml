@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/topLeftbtn"
+        android:id="@+id/top_left_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/round_button"
@@ -18,7 +18,7 @@
         android:text="Top Left"/>
 
     <Button
-        android:id="@+id/topRightbtn"
+        android:id="@+id/top_right_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
@@ -28,7 +28,7 @@
         android:text="Top Right"/>
 
     <Button
-        android:id="@+id/bottmLeftBtn"
+        android:id="@+id/bottom_left_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
@@ -38,7 +38,7 @@
         android:text="Bottom Left"/>
 
     <Button
-        android:id="@+id/bottomRightBtn"
+        android:id="@+id/bottom_right_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -48,7 +48,7 @@
         android:text="Bottom Right"/>
 
     <ImageButton
-        android:id="@+id/centerBtn"
+        android:id="@+id/center_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

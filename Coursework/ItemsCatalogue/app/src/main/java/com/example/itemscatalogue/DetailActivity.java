@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.itemscatalogue.databinding.ActivityDetailBinding;
-import com.example.itemscatalogue.databinding.ActivityMainBinding;
-
 public class DetailActivity extends AppCompatActivity {
 
     private ActivityDetailBinding binding;
@@ -21,7 +19,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // back intent
-        Intent back = new Intent(DetailActivity.this, MainActivity.class);
+        Intent back = new Intent(this, MainActivity.class);
 
         // details intent
         Intent intent = getIntent();
@@ -31,8 +29,6 @@ public class DetailActivity extends AppCompatActivity {
         int imageResource = getIntent().getIntExtra("imageRes", 0);
         binding.logo.setImageResource(imageResource);
 
-        binding.back.setOnClickListener(v -> {
-            startActivity(back);
-        });
+        binding.back.setOnClickListener(v -> startActivity(back));
     }
 }

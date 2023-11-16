@@ -2,12 +2,10 @@ package com.example.buttoninteractions;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +13,7 @@ import com.example.buttoninteractions.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding; // init binding
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +24,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // top left
-        binding.topLeftbtn.setOnClickListener(v -> {
-            showToast("You clicked the Top Left button!", 0, -500);
-        });
+        binding.topLeftBtn.setOnClickListener(v -> showToast("You clicked the Top Left button!", 0, -500));
 
         // top right
-        binding.topRightbtn.setOnClickListener(v -> {
-            showToast("You clicked the Top Right button!", 0, -500);
-        });
+        binding.topRightBtn.setOnClickListener(v -> showToast("You clicked the Top Right button!", 0, -500));
 
         // center
-        binding.centerBtn.setOnClickListener(v -> {
-            showToast("You clicked the Center button!", 0, 0);
-        });
+        binding.centerBtn.setOnClickListener(v -> showToast("You clicked the Center button!", 0, 0));
 
         // bottom left
-        binding.bottmLeftBtn.setOnClickListener(v -> {
-            showToast("You clicked the Bottom Left button!", 0, 500);
-        });
+        binding.bottomLeftBtn.setOnClickListener(v -> showToast("You clicked the Bottom Left button!", 0, 500));
 
         // bottom right
-        binding.bottomRightBtn.setOnClickListener(v -> {
-            showToast("You clicked the Bottom Right button!", 0, 500);
-        });
+        binding.bottomRightBtn.setOnClickListener(v -> showToast("You clicked the Bottom Right button!", 0, 500));
     }
 
     private void showToast(String toastText, int xOffset, int yOffset) {

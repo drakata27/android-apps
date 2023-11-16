@@ -6,6 +6,7 @@
     android:padding="16dp"
     android:orientation="vertical"
     android:background="@color/green"
+    android:id="@+id/main_container"
     tools:context=".MainActivity">
 
     <TextView
@@ -24,27 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="35dp"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/arsenal"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:src="@drawable/arsenal" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textSize="36sp"-->
-<!--                    android:text="Arsenal"/>-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -74,6 +54,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/club_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
@@ -114,33 +95,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Add to Favourites"/>
+                        android:onClick="onClick"
+                        android:text="View More"/>
 
                 </LinearLayout>
 
 
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="35dp"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/chelsea"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:src="@drawable/chelsea" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textSize="36sp"-->
-<!--                    android:text="Chelsea"/>-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -210,32 +171,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Add to Favourites"/>
+                        android:onClick="onClick"
+                        android:text="View More"/>
+
 
                 </LinearLayout>
 
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="35dp"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/lfc"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:src="@drawable/lfc" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textSize="36sp"-->
-<!--                    android:text="Liverpool"/>-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -305,33 +247,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Add to Favourites"/>
+                        android:onClick="onClick"
+                        android:text="View More"/>
 
                 </LinearLayout>
-
-
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="35dp"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/man_city"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:src="@drawable/man_city" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textSize="36sp"-->
-<!--                    android:text="Man City"/>-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -401,33 +321,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Add to Favourites"/>
+                        android:onClick="onClick"
+                        android:text="View More"/>
 
                 </LinearLayout>
 
 
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="35dp"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/man_utd"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:src="@drawable/man_utd" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textSize="36sp"-->
-<!--                    android:text="Man United"/>-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -497,33 +397,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Add to Favourites"/>
+                        android:onClick="onClick"
+                        android:text="View More"/>
 
                 </LinearLayout>
 
 
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginRight="35dp"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <ImageButton-->
-<!--                    android:id="@+id/spurs"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:src="@drawable/spurs" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textSize="36sp"-->
-<!--                    android:text="Spurs"/>-->
-<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -593,22 +473,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Add to Favourites"/>
+                        android:onClick="onClick"
+                        android:text="View More"/>
 
                 </LinearLayout>
             </LinearLayout>
-
-
         </LinearLayout>
 
     </HorizontalScrollView>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Show Favourites"/>
-
-
 </LinearLayout>
