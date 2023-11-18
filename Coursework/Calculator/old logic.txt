@@ -1,0 +1,13 @@
+binding.buttonAdd.setOnClickListener(v -> {
+                currentOperation = "+";
+                double sum = Double.parseDouble(binding.inputNumTv.getText().toString()) + Double.parseDouble(chainNum);
+
+                if (isSolved()) {
+                    chainNum = binding.inputNumTv.getText().toString();
+                } else {
+                    chainNum = decimalFormat.format(sum);
+                }
+                binding.chainNumTv.setText(chainNum + " +");
+                resetInput();
+
+        });

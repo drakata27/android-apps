@@ -2,6 +2,7 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DecimalFormat decimalFormat;
     boolean entryCleared;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -65,65 +67,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         // addition
-        binding.buttonAdd.setOnClickListener(v -> {
-            if (isValidNumber(inputNum)) {
-                currentOperation = "+";
-                double sum = Double.parseDouble(binding.inputNumTv.getText().toString()) + Double.parseDouble(chainNum);
-
-                if (isSolved()) {
-                    chainNum = binding.inputNumTv.getText().toString();
-                } else {
-                    chainNum = decimalFormat.format(sum);
-                }
-                binding.chainNumTv.setText(chainNum + " +");
-                resetInput();
-            }
-        });
+        binding.buttonAdd.setOnClickListener(v -> updateNumber("+", inputNum));
 
         // subtraction
-        binding.buttonSubtract.setOnClickListener(v -> {
-            if (isValidNumber(inputNum)) {
-                currentOperation = "-";
-                double difference = Double.parseDouble(binding.inputNumTv.getText().toString()) - Double.parseDouble(chainNum);
-
-                if (isSolved()) {
-                    chainNum = binding.inputNumTv.getText().toString();
-                } else {
-                    chainNum = decimalFormat.format(difference);
-                }
-                binding.chainNumTv.setText(chainNum + " -");
-                resetInput();
-            }
-        });
+        binding.buttonSubtract.setOnClickListener(v -> updateNumber("-", inputNum));
 
         // multiplication
-        binding.buttonMultiply.setOnClickListener(v -> {
-            if (isValidNumber(inputNum)) {
-                currentOperation = "*";
-                binding.chainNumTv.setText(binding.inputNumTv.getText().toString() + " *");
-                chainNum = binding.inputNumTv.getText().toString();
+        binding.buttonMultiply.setOnClickListener(v -> updateNumber("*", inputNum));
 
-                inputNum = "0";
-                binding.inputNumTv.setText(inputNum);
-            }
-        });
-
-        binding.buttonDivide.setOnClickListener(v -> {
-            if (isValidNumber(inputNum)) {
-                currentOperation = "/";
-
-                double divisor = Double.parseDouble(binding.inputNumTv.getText().toString());
-
-                if (isSolved()) {
-                    chainNum = binding.inputNumTv.getText().toString();
-                } else {
-                    chainNum = decimalFormat.format(divisor);
-                }
-                binding.chainNumTv.setText(chainNum + " /");
-                resetInput();
-            }
-
-        });
+        // division
+        binding.buttonDivide.setOnClickListener(v -> updateNumber("/", inputNum));
 
         // dot
         binding.buttonDot.setOnClickListener(v -> {
@@ -146,19 +99,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (currentOperation) {
                     case "+":
                         calculate(chainNum, inputNum, "+");
-
                         break;
                     case "-":
                         calculate(chainNum, inputNum, "-");
-
                         break;
                     case "*":
                         calculate(chainNum, inputNum,"*");
-
                         break;
                     case "/":
                         if (inputNum.equals("0")) {
-                            binding.chainNumTv.setText("Cannot divide by zero");
+                            binding.chainNumTv.setText("Error");
                             chainNum = "0";
                             resetInput();
                         } else {
@@ -196,10 +146,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inputNum = "0";
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculate(String num1, String num2, String sign) {
         double result = 0.0;
+        int resultLength = binding.inputNumTv.getText().toString().length();
 
-        if (isValidNumber(inputNum)) {
+        if (isValidNumber(inputNum) && (resultLength < 10)) {
             switch (sign) {
                 case "+":
                     result = Double.parseDouble(num1) + Double.parseDouble(num2);
@@ -214,13 +166,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     result = Double.parseDouble(num1) / Double.parseDouble(num2);
                     break;
             }
+            binding.chainNumTv.setText(chainNum + " " + sign + " " + inputNum + " =");
+            binding.inputNumTv.setText(decimalFormat.format(result));
         }
-
-        binding.chainNumTv.setText(chainNum + " " + sign + " " + inputNum + " =");
-        binding.inputNumTv.setText(decimalFormat.format(result));
 
         if (binding.chainNumTv.getText().toString().contains("=")) {
             chainNum = decimalFormat.format(result);
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updateNumber(String operation, String inputNum) {
+        if (isValidNumber(inputNum)) {
+            currentOperation = operation;
+            chainNum = binding.inputNumTv.getText().toString();
+            binding.chainNumTv.setText(chainNum + " " + operation);
+            resetInput();
         }
     }
 

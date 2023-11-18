@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
+    android:background="#9FABE6"
     tools:context=".MainActivity">
 
     <TextView
@@ -72,7 +72,7 @@
         android:layout_marginTop="15dp"
         android:textSize="20sp"
         android:layout_gravity="center"
-        android:text="Select the club you like form that league:"/>
+        android:text="Select the club you like from that league:"/>
 
     <Spinner
         android:id="@+id/spinner"
@@ -83,12 +83,14 @@
 
     <Button
         android:id="@+id/submitBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Submit"
         android:layout_marginTop="35dp"
-        android:textSize="23sp"/>
+        android:background="@drawable/submit_btn"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:textSize="23sp" />
 
     <TextView
         android:id="@+id/favLeague"
@@ -96,6 +98,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginTop="100dp"
+        android:textStyle="bold"
         android:text=""/>
 
     <TextView
@@ -104,6 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:text=""/>
 
 
