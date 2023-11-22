@@ -5,14 +5,15 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    android:background="#9FABE6"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue"
-        android:textSize="26sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="36sp"
         android:layout_gravity="center"
         android:text="Football leagues and clubs" />
 
@@ -20,7 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="26sp"
         android:layout_gravity="center"
         android:text="Select your favourite football league"/>
 
@@ -32,22 +35,25 @@
         android:layout_marginTop="16dp"
         android:layout_gravity="center">
 
-
         <RadioButton
             android:id="@+id/epl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="18sp"
-            android:text="EPL"/>
+            android:text="English Premier League"/>
 
         <RadioButton
             android:id="@+id/laLiga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:textStyle="bold"
             android:textSize="18sp"
-            android:text="La Liga"/>
+            android:textColor="@color/white"
+            android:text="Spanish La Liga"/>
 
         <RadioButton
             android:id="@+id/serieA"
@@ -55,15 +61,19 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="18sp"
-            android:text="Serie A"/>
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="Italian Serie A"/>
 
         <RadioButton
             android:id="@+id/bundesliga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:textStyle="bold"
             android:textSize="18sp"
-            android:text="Bundesliga"/>
+            android:textColor="@color/white"
+            android:text="German Bundesliga"/>
         </RadioGroup>
 
     <TextView
@@ -72,6 +82,7 @@
         android:layout_marginTop="15dp"
         android:textSize="20sp"
         android:layout_gravity="center"
+        android:textColor="@color/white"
         android:text="Select the club you like from that league:"/>
 
     <Spinner
@@ -79,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp" />
 
     <Button
         android:id="@+id/submitBtn"
@@ -92,14 +103,26 @@
         android:textColor="@color/white"
         android:textSize="23sp" />
 
+    <Button
+        android:id="@+id/clearBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/clear_btn"
+        android:text="Clear"
+        android:textColor="@color/white"
+        android:textSize="23sp" />
+
     <TextView
         android:id="@+id/favLeague"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:layout_marginTop="100dp"
-        android:textStyle="bold"
-        android:text=""/>
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/favClub"
@@ -107,6 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:text=""/>
 
