@@ -18,17 +18,16 @@ public class DetailActivity extends AppCompatActivity {
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // back intent
-        Intent back = new Intent(this, MainActivity.class);
-
         // details intent
         Intent intent = getIntent();
-        String data = intent.getStringExtra("key");
-        binding.details.setText(data);
+        int detailsResource = intent.getIntExtra("key", 0);
+        String details = getString(detailsResource);
+        binding.details.setText(details);
 
         int imageResource = getIntent().getIntExtra("imageRes", 0);
         binding.logo.setImageResource(imageResource);
 
-        binding.back.setOnClickListener(v -> startActivity(back));
+        binding.back.setOnClickListener(v -> finish());
+        binding.backArrow.setOnClickListener(v -> finish());
     }
 }

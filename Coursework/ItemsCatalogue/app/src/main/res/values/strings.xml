@@ -1,10 +1,62 @@
 <resources>
     <string name="app_name">ItemsCatalogue</string>
     <string name="go_back">Go Back</string>
+    <string name="arsenal">
+        Arsenal Football Club is an English professional football club based in Holloway,
+        North London. Arsenal compete in the Premier League, the top flight of English football.
+        The club has won 13 league titles including one unbeaten title, a record 14 FA Cups,
+        two League Cups, 17 FA Community Shields, the Football League Centenary Trophy,
+        one European Cup Winners Cup and one Inter-Cities Fairs Cup. In terms of
+        trophies won, it is the third-most successful club in English football.
+    </string>
+    <string name="chelsea">
+        Chelsea Football Club is an English professional football club based in Fulham, West London.
+        Founded in 1905, the team play their home games at Stamford Bridge.
+        The club competes in the Premier League, the top division of English football.
+        It won its first major honour, the League championship, in 1955. The club won the FA Cup for
+        the first time in 1970, their first European honour, the Cup Winners Cup, in 1971,
+        and became the third English club to win the Club World Cup in 2022.
+    </string>
     <string name="liverpool">
         Liverpool Football Club is a professional football club based in Liverpool, England.
         The club competes in the Premier League, the top tier of English football.
         Founded in 1892, the club joined the Football League the following year and has played
         its home games at Anfield since its formation.
+        Domestically, the club has won 19 league titles, eight FA Cups, a record nine League Cups and 16 FA Community Shields.
+        In international competitions, the club has won six European Cups, three UEFA Cups, four UEFA Super Cups—all English records—and one FIFA Club World Cup.
+        The club established itself as a major force in domestic and European football in the 1970s and 1980s, when Bill Shankly, Bob Paisley, Joe Fagan and Kenny Dalglish,
+        led the club to a combined 11 League titles and four European Cups. Liverpool won two further European Cups in 2005 and 2019 under the management of Rafael Benítez and Jürgen Klopp,
+        respectively, the latter led Liverpool to a 19th league title in 2020, the clubs first during the Premier League era.
+    </string>
+    <string name="man_city">
+        Manchester City Football Club is an English professional football club based in Manchester
+        that competes in the Premier League, the top flight of English football.
+        Founded in 1880 as St. Marks West Gorton, they became Ardwick Association Football Club
+        in 1887 and Manchester City in 1894. The clubs home ground is the City of
+        Manchester Stadium in east Manchester, to which they moved in 2003, having played at Maine Road
+        since 1923. Manchester City adopted their sky blue home shirts in 1894,
+        in the first season with the current name. Over the course of its history,
+        the club has won nine league titles, seven FA Cups, eight League Cups,
+        six FA Community Shields, one UEFA Champions League, one European Cup Winners Cup,
+        and one UEFA Super Cup.
+    </string>
+
+    <string name="man_utd">
+        Manchester United Football Club, commonly referred to as Man United often stylised as Man Utd,
+        or simply United, is a professional football club based in Old Trafford,
+        Greater Manchester, England. The club competes in the Premier League, the top division in the
+        English football league system. Nicknamed the Red Devils, they were founded as Newton Heath
+        LYR Football Club in 1878, but changed their name to Manchester United in 1902.
+        After a spell playing in Clayton, Manchester, the club moved to their current stadium,
+        Old Trafford, in 1910.
+    </string>
+
+    <string name="spurs">
+        Tottenham Hotspur Football Club, commonly referred to as simply Tottenham or Spurs,
+        is a professional football club based in Tottenham, London, England.
+        It competes in the Premier League, the top flight of English football.
+        The team has played its home matches in the 62,850-capacity Tottenham Hotspur Stadium
+        since April 2019, replacing their former home of White Hart Lane,
+        which had been demolished to make way for the new stadium on the same site.
     </string>
 </resources>
