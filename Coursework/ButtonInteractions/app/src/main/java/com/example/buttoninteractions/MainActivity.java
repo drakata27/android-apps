@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         binding.topRightBtn.setOnClickListener(v -> showToast("You clicked the Top Right button!", 0, -500));
 
         // center
-        binding.centerBtn.setOnClickListener(v -> showToast("You clicked the Center button!", 0, 0));
+        binding.centerBtn.setOnClickListener(v -> showToast("You clicked on the Rocket!", 0, 0));
 
         // bottom left
         binding.bottomLeftBtn.setOnClickListener(v -> showToast("You clicked the Bottom Left button!", 0, 500));

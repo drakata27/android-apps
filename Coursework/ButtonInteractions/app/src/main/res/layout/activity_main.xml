@@ -48,10 +48,10 @@
 
     <ImageButton
         android:id="@+id/center_btn"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/android_btn"
-        style="?android:attr/borderlessButtonStyle"
+        android:src="@drawable/rocket"
         android:text="Center Button" />
 </FrameLayout>
