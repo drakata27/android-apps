@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
      private boolean validateUsername() {
          String usernameText = binding.textInputUsername.getEditText().getText().toString().trim();
 
-
          if (usernameText.isEmpty()) {
              binding.textInputUsername.setError("Field cannot be empty");
              return false;
@@ -84,24 +83,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-         switch (attempts) {
-             case 2:
-                 binding.attempts.setTextColor(ContextCompat.getColor(this, R.color.orange));
-                 break;
-             case 1:
-                 binding.attempts.setTextColor(ContextCompat.getColor(this, R.color.red));
-                 break;
-             case 0:
-                 Toast.makeText(this, "No more attempts left", Toast.LENGTH_LONG).show();
-                 this.finishAffinity();
-                 break;
+         if (attempts == 0) {
+             Toast.makeText(this, "No more attempts left", Toast.LENGTH_LONG).show();
+             this.finishAffinity();
          }
+
         binding.attempts.setText("" + attempts);
      }
 
      private void clearInput() {
         binding.textInputUsername.getEditText().setText("");
+        binding.textInputUsername.setError(null);
         binding.textInputPassword.getEditText().setText("");
+        binding.textInputPassword.setError(null);
      }
 
      private void wrongCredentials() {

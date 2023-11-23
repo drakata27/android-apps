@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/background"
+    android:background="@drawable/sky"
     tools:context=".MainActivity">
 
     <TextView
@@ -68,7 +68,7 @@
             android:id="@+id/attempts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/green"
+            android:textColor="@color/red"
             android:textSize="26sp"
             android:layout_marginBottom="20dp"
             android:text="3"/>

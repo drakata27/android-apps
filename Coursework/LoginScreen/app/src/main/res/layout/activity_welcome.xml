@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/background"
+    android:background="@drawable/sky"
     tools:context=".WelcomeActivity">
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="admin"/>
+        android:text="username"/>
 
     <TextView
         android:layout_width="wrap_content"
