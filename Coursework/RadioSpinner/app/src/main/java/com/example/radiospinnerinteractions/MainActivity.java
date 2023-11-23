@@ -3,8 +3,6 @@ package com.example.radiospinnerinteractions;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.RadioButton;
 import com.example.radiospinnerinteractions.databinding.ActivityMainBinding;
 
@@ -25,14 +23,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        clubsList.add("No CLub Selected");
         clubsList.add(new ClubItem("No CLub Selected"));
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_spinner_item, clubsList);
-
-//        adapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-//        binding.spinner.setAdapter(adapter);
 
         clubAdapter = new ClubAdapter(this, clubsList);
         binding.spinner.setAdapter(clubAdapter);
@@ -52,30 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 newClubs = new String[]{"Bayer Leverkusen", "Bayern Munich", "Borussia Dortmund", "Eintracht Frankfurt", "RB Leipzig", "Wolfsburg"};
                 addClubs(newClubs);
             }
-//            adapter.notifyDataSetChanged();
             clubAdapter.notifyDataSetChanged();
         });
 
         binding.submitBtn.setOnClickListener(v -> {
-//            try {
-//                String selectedItem = (String) binding.spinner.getSelectedItem();
-//                RadioButton selectedLeagueBtn = findViewById(binding.radioGroup.getCheckedRadioButtonId());
-//                String selectedLeagueTxt = selectedLeagueBtn.getText().toString();
-//                binding.favLeague.setText("Favourite league: " + selectedLeagueTxt);
-//                binding.favClub.setText("Favourite club: " + selectedItem);
-//            } catch (Exception e) {
-//                binding.favLeague.setText("Please select an option from above");
-//            }
-
-//            ClubItem selectedItem = (ClubItem) binding.spinner.getSelectedItem();
-//            if (selectedItem != null) {
-//                RadioButton selectedLeagueBtn = findViewById(binding.radioGroup.getCheckedRadioButtonId());
-//                String selectedLeagueTxt = selectedLeagueBtn.getText().toString();
-//                binding.favLeague.setText("Favorite league: " + selectedLeagueTxt);
-//                binding.favClub.setText("Favorite club: " + selectedItem.getClubName());
-//            } else {
-//                binding.favLeague.setText("Please select an option from above");
-//            }
             try {
                 ClubItem selectedItem = (ClubItem) binding.spinner.getSelectedItem();
                 RadioButton selectedLeagueBtn = findViewById(binding.radioGroup.getCheckedRadioButtonId());
@@ -90,18 +61,15 @@ public class MainActivity extends AppCompatActivity {
         binding.clearBtn.setOnClickListener(v -> {
             clubsList.clear();
             binding.radioGroup.clearCheck();
-//            clubsList.add("No CLub Selected");
             clubsList.add(new ClubItem("No CLub Selected"));
             binding.favLeague.setText("");
             binding.favClub.setText("");
-//            adapter.notifyDataSetChanged();
             clubAdapter.notifyDataSetChanged();
         });
     }
 
     public void addClubs(String [] clubs) {
         for (String club : clubs) {
-//            clubsList.add(club);
             clubsList.add(new ClubItem(club));
         }
         binding.spinner.setSelection(0);
