@@ -28,10 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(binding.getRoot());
 
         decimalFormat = new DecimalFormat("#.########");
-
         inputNum = binding.inputNumTv.getText().toString();
         chainNum = "0";
-
         entryCleared = false;
 
         // clear
@@ -170,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             binding.inputNumTv.setText(decimalFormat.format(result));
         }
 
-        if (binding.chainNumTv.getText().toString().contains("=")) {
+        if (isSolved()) {
             chainNum = decimalFormat.format(result);
         }
     }
@@ -183,6 +181,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             binding.chainNumTv.setText(chainNum + " " + operation);
             resetInput();
         }
+
+//        currentOperation = operation;
+//        double n1 = 0;
+//        double res;
+//
+//        if (binding.inputNumTv.getText().equals("0")) {
+//            n1 = 1;
+//            chainNum = inputNum;
+//            res = n1 * Double.parseDouble(chainNum);
+//        } else {
+//            n1 = Double.parseDouble(binding.inputNumTv.getText().toString());
+//            res = n1 * Double.parseDouble(chainNum);
+//            chainNum = String.valueOf(res);
+//        }
+//
+//
+//        binding.chainNumTv.setText(decimalFormat.format(res) + " " + operation);
+//        resetInput();
     }
 
     private boolean isValidNumber(String num) {
