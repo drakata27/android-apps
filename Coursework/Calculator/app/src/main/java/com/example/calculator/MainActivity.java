@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String currentOperation;
     DecimalFormat decimalFormat;
     boolean entryCleared;
+    boolean deletePressed;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inputNum = binding.inputNumTv.getText().toString();
         chainNum = "0";
         entryCleared = false;
+        deletePressed = false;
+        currentOperation = "";
 
         // clear
         binding.buttonC.setOnClickListener(v -> {
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // delete
         binding.buttonDelete.setOnClickListener(v -> {
             String currentText = binding.inputNumTv.getText().toString();
-
+            deletePressed = true;
             if (currentText.length() > 0) {
                 // Remove the last character from the text
                 currentText = currentText.substring(0, currentText.length() - 1);
@@ -76,14 +79,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // division
         binding.buttonDivide.setOnClickListener(v -> updateNumber("/", inputNum));
 
-        // dot
-        binding.buttonDot.setOnClickListener(v -> {
+        // decimal point
+        binding.buttonDecimalPoint.setOnClickListener(v -> {
             if (!binding.inputNumTv.getText().toString().contains(".") && isValidNumber(inputNum)) {
                 inputNum += ".";
                 binding.inputNumTv.setText(inputNum);
             }
 
-            if (isSolved() && !entryCleared) {
+            if (isSolved() && !entryCleared && !deletePressed) {//TODO
                 binding.chainNumTv.setText("");
                 chainNum = "0";
                 binding.inputNumTv.setText("0.");
@@ -113,6 +116,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             calculate(chainNum, inputNum,"/");
                         }
                         break;
+                    case "":
+                        chainNum = "0";
+                        binding.chainNumTv.setText(chainNum);
                 }
             }
         });
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MaterialButton button = (MaterialButton) view;
         String buttonText = button.getText().toString();
 
-        if (isSolved() && !entryCleared) {
+        if (isSolved() && !entryCleared && !deletePressed) {
             binding.chainNumTv.setText("");
             inputNum = "";
             chainNum = "0";
@@ -181,24 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             binding.chainNumTv.setText(chainNum + " " + operation);
             resetInput();
         }
-
-//        currentOperation = operation;
-//        double n1 = 0;
-//        double res;
-//
-//        if (binding.inputNumTv.getText().equals("0")) {
-//            n1 = 1;
-//            chainNum = inputNum;
-//            res = n1 * Double.parseDouble(chainNum);
-//        } else {
-//            n1 = Double.parseDouble(binding.inputNumTv.getText().toString());
-//            res = n1 * Double.parseDouble(chainNum);
-//            chainNum = String.valueOf(res);
-//        }
-//
-//
-//        binding.chainNumTv.setText(decimalFormat.format(res) + " " + operation);
-//        resetInput();
     }
 
     private boolean isValidNumber(String num) {

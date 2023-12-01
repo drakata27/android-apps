@@ -299,7 +299,7 @@
                 android:text="0"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_dot"
+                android:id="@+id/button_decimal_point"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 app:cornerRadius="36dp"
