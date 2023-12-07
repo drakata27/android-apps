@@ -21,6 +21,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    TextView resetPassword;
 
     @Override
     public void onStart() {
@@ -43,6 +44,8 @@ public class Login extends AppCompatActivity {
         buttonLogin = findViewById(R.id.btn_login);
         progressBar = findViewById(R.id.progress_bar);
         textView = findViewById(R.id.register_now);
+
+        resetPassword = findViewById(R.id.reset_password);
 
         textView.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), Register.class);
@@ -77,6 +80,12 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+
+        resetPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ResetPassword.class);
+            startActivity(intent);
+            finish();
         });
     }
 }
