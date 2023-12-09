@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">RecyclerViewProject</string>
+    <!-- Array 1 -->
+    <string-array name="array1">
+        <item>Element 1</item>
+        <item>Element 2</item>
+        <item>Element 3</item>
+        <item>Element 4</item>
+        <item>Element 5</item>
+        <item>Element 6</item>
+        <item>Element 7</item>
+        <item>Element 8</item>
+        <item>Element 9</item>
+        <item>Element 10</item>
+    </string-array>
+
+    <!-- Array 2 -->
+    <string-array name="array2">
+        <item>Item A</item>
+        <item>Item B</item>
+        <item>Item C</item>
+        <item>Item D</item>
+        <item>Item E</item>
+        <item>Item F</item>
+        <item>Item G</item>
+        <item>Item H</item>
+        <item>Item I</item>
+        <item>Item J</item>
+    </string-array>
+
+    <!-- Array 3 -->
+    <string-array name="array3">
+        <item>Android</item>
+        <item>Studio</item>
+        <item>Development</item>
+        <item>String</item>
+        <item>Array</item>
+        <item>Resource</item>
+        <item>XML</item>
+        <item>Layout</item>
+        <item>UI</item>
+        <item>Programming</item>
+    </string-array>
 </resources>

@@ -54,7 +54,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel, MainAdapter.
         holder.btnEdit.setOnClickListener(v -> {
             final DialogPlus dialogPlus = DialogPlus.newDialog(holder.img.getContext())
                     .setContentHolder(new ViewHolder(R.layout.update_popup))
-                    .setExpanded(true, 1200)
+                    .setExpanded(true, 1800)
                     .create();
 
             View view = dialogPlus.getHolderView();
@@ -88,8 +88,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel, MainAdapter.
                         })
                         .addOnFailureListener(e -> Toast.makeText(holder.name.getContext(), "Error while updating", Toast.LENGTH_SHORT).show());
             });
-
-            Toast.makeText(holder.name.getContext(), "Position is " + position, Toast.LENGTH_SHORT).show();
         });
 
         holder.btnDelete.setOnClickListener(v -> {
