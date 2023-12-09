@@ -1,5 +1,0 @@
-# mac
-sdk.dir=/Users/aleksandardrakaliyski/Library/Android/sdk
-
-# windows
-sdk.dir=C\:\\Users\\draka\\AppData\\Local\\Android\\Sdk
