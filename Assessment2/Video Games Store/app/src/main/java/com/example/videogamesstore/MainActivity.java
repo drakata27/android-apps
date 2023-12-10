@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.example.videogamesstore.databinding.ActivityMainBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -43,5 +46,47 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mainAdapter.startListening();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.search, menu);
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        assert searchView != null;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                txtSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                txtSearch(query);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void txtSearch(String str) {
+        FirebaseRecyclerOptions<Games> options =
+                new FirebaseRecyclerOptions.Builder<Games>()
+                        .setQuery(FirebaseDatabase
+                                .getInstance()
+                                .getReference().
+                                child("videogames").
+                                orderByChild("name").
+                                startAt(str)
+                                .endAt(str+"~"), Games.class)
+                        .build();
+
+        mainAdapter = new MainAdapter(options);
+        mainAdapter.startListening();
+        binding.recyclerView.setAdapter(mainAdapter);
     }
 }
