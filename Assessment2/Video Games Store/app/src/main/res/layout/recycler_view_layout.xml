@@ -82,6 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/remove"
+                    android:backgroundTint="@color/blue"
                     android:background="@drawable/round_button"/>
 
                 <TextView
@@ -91,15 +92,15 @@
                     android:layout_marginLeft="5dp"
                     android:textSize="20sp"
                     android:layout_marginRight="5dp"
-                    android:text="Qty"/>
+                    android:text="0"/>
 
                 <ImageButton
                     android:id="@+id/qtyIncrementBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/add"
+                    android:backgroundTint="@color/blue"
                     android:background="@drawable/round_button"/>
-
             </LinearLayout>
 
 

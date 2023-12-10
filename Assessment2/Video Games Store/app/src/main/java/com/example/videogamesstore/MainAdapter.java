@@ -31,7 +31,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
-        holder.qty.setText(String.valueOf(model.getQty()));
 
 
         Glide.with(holder.img.getContext())
@@ -44,13 +43,22 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
             Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " added to cart", Toast.LENGTH_SHORT).show();
         });
 
-        holder.decrementQty.setOnClickListener(v -> {
-            Toast.makeText(holder.name.getContext(), "Quantity decremented: " + holder.qty.getText().toString(), Toast.LENGTH_SHORT).show();
+        holder.incrementQty.setOnClickListener(v -> {
+            int newQty = Integer.parseInt(holder.qty.getText().toString());
+            if (model.getQty() > newQty) {
+                newQty++;
+                holder.qty.setText(String.valueOf(newQty));
+            }
         });
 
-        holder.incrementQty.setOnClickListener(v -> {
-            Toast.makeText(holder.name.getContext(), "Quantity incremented: " + holder.qty.getText().toString(), Toast.LENGTH_SHORT).show();
+        holder.decrementQty.setOnClickListener(v -> {
+            int newQty = Integer.parseInt(holder.qty.getText().toString());
+            if (newQty > 0) {
+                newQty--;
+                holder.qty.setText(String.valueOf(newQty));
+            }
         });
+
     }
 
     @NonNull
