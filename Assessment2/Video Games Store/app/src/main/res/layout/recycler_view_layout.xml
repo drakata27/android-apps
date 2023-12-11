@@ -69,41 +69,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/qtyDecrementBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/remove"
-                    android:backgroundTint="@color/blue"
-                    android:background="@drawable/round_button"/>
-
-                <TextView
-                    android:id="@+id/qtyText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="20sp"
-                    android:layout_marginRight="5dp"
-                    android:text="0"/>
-
-                <ImageButton
-                    android:id="@+id/qtyIncrementBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add"
-                    android:backgroundTint="@color/blue"
-                    android:background="@drawable/round_button"/>
-            </LinearLayout>
-
-
         </LinearLayout>
 
         <ImageButton

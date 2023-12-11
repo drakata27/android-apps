@@ -2,9 +2,9 @@ package com.example.videogamesstore;
 
 public class Games {
 
-    String name, platform, imgurl;
-    Double price;
-    int qty;
+    private String name, platform, imgurl;
+    private Double price;
+    private int qty;
 
     public Games() {}
 

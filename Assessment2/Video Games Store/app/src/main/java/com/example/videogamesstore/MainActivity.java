@@ -1,12 +1,13 @@
 package com.example.videogamesstore;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.videogamesstore.databinding.ActivityMainBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
         mainAdapter = new MainAdapter(options);
         binding.recyclerView.setAdapter(mainAdapter);
+        
+        binding.floatingActionButton.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CartActivity.class));
+        });
     }
 
     @Override
@@ -82,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                 child("videogames").
                                 orderByChild("name").
                                 startAt(str)
-                                .endAt(str+"~"), Games.class)
-                        .build();
+                                .endAt(str+"~"), Games.class).build();
 
         mainAdapter = new MainAdapter(options);
         mainAdapter.startListening();

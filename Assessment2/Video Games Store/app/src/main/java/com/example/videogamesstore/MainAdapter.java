@@ -1,5 +1,6 @@
 package com.example.videogamesstore;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myViewHolder> {
-
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     */
     public MainAdapter(@NonNull FirebaseRecyclerOptions<Games> options) {
         super(options);
     }
@@ -31,7 +34,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
-
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
 
         Glide.with(holder.img.getContext())
                 .load(model.getImgurl())
@@ -40,23 +43,49 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                 .into(holder.img);
 
         holder.addToCartBtn.setOnClickListener(v -> {
-            Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " added to cart", Toast.LENGTH_SHORT).show();
-        });
+//            String cartId = reference.push().getKey();
+//
+//            HashMap<String, Object> cartItems = new HashMap<>();
+//            cartItems.put("name", model.getName());
+//            cartItems.put("platform", model.getPlatform());
+//            cartItems.put("price", model.getPrice());
+//            cartItems.put("imgurl", String.valueOf(model.getImgurl()));
+//            cartItems.put("qty", model.getQty());
+//
+//            reference.child(cartId).setValue(cartItems);
+//
+//            Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " added to cart", Toast.LENGTH_SHORT).show();
 
-        holder.incrementQty.setOnClickListener(v -> {
-            int newQty = Integer.parseInt(holder.qty.getText().toString());
-            if (model.getQty() > newQty) {
-                newQty++;
-                holder.qty.setText(String.valueOf(newQty));
-            }
-        });
+            Query query = reference.orderByChild("name").equalTo(model.getName());
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        // Item already in the cart
+                        Toast.makeText(holder.name.getContext(), model.getName() + " is already in the cart", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Item not in the cart, add it
+                        String cartId = reference.push().getKey();
 
-        holder.decrementQty.setOnClickListener(v -> {
-            int newQty = Integer.parseInt(holder.qty.getText().toString());
-            if (newQty > 0) {
-                newQty--;
-                holder.qty.setText(String.valueOf(newQty));
-            }
+                        HashMap<String, Object> cartItems = new HashMap<>();
+                        cartItems.put("name", model.getName());
+                        cartItems.put("platform", model.getPlatform());
+                        cartItems.put("price", model.getPrice());
+                        cartItems.put("imgurl", String.valueOf(model.getImgurl()));
+                        cartItems.put("qty", model.getQty());
+
+                        reference.child(cartId).setValue(cartItems);
+
+                        Toast.makeText(holder.name.getContext(), model.getName() + " added to cart", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("Firebase", "Error checking cart: " + error.getMessage());
+                }
+            });
+
         });
 
     }
@@ -84,8 +113,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
             qty = itemView.findViewById(R.id.qtyText);
 
             addToCartBtn = itemView.findViewById(R.id.addToCartBtn);
-            incrementQty = itemView.findViewById(R.id.qtyIncrementBtn);
-            decrementQty = itemView.findViewById(R.id.qtyDecrementBtn);
+//            incrementQty = itemView.findViewById(R.id.qtyIncrementBtn);
+//            decrementQty = itemView.findViewById(R.id.qtyDecrementBtn);
         }
     }
 }

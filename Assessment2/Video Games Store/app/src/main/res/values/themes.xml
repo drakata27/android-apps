@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.VideoGamesStore" parent="Base.Theme.VideoGamesStore" />
+
+    <!-- Theme without ActionBar -->
+    <style name="NoActionBarTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <!-- Customize your theme here. -->
+    </style>
+
 </resources>
