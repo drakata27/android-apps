@@ -1,6 +1,8 @@
 package com.example.videogamesstore;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,14 +11,16 @@ import com.example.videogamesstore.databinding.ActivityCartBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CartActivity extends AppCompatActivity {
+import java.util.Locale;
+
+public class CartActivity extends AppCompatActivity implements CartTotalListener{
     private ActivityCartBinding binding;
     private CartAdapter cartAdapter;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -27,10 +31,20 @@ public class CartActivity extends AppCompatActivity {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("AddToCart"), Games.class)
                         .build();
 
-        cartAdapter = new CartAdapter(options);
+        cartAdapter = new CartAdapter(options, this);
         binding.recyclerView.setAdapter(cartAdapter);
+//        cartAdapter.updateTotalInAdapter();
+        binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", cartAdapter.getTotal()));
 
         binding.backArrow.setOnClickListener(v -> finish());
+
+        binding.checkoutBtn.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Proceeding to checkout. Your total is £" + cartAdapter.getTotal(), Toast.LENGTH_SHORT).show();
+            binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", cartAdapter.getTotal()));
+        });
+
+        cartAdapter.updateTotalInAdapter();
+//        binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", cartAdapter.getTotal()));
     }
 
     @Override
@@ -40,8 +54,19 @@ public class CartActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        cartAdapter.updateTotalInAdapter();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        cartAdapter.startListening();
+        cartAdapter.stopListening();
+    }
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onCartTotalUpdated(double total) {
+        binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", total));
     }
 }
