@@ -22,8 +22,12 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myViewHolder>{
+    private double total;
+    private double itemTotal;
+
     public CartAdapter(@NonNull FirebaseRecyclerOptions<Games> options) {
         super(options);
+        total = 0;
     }
 
     @Override
@@ -31,12 +35,13 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
+        itemTotal = Double.parseDouble(holder.price.getText().toString());
 
-        double[] total = {0.0};
+        total += Double.parseDouble(holder.price.getText().toString());
+        Log.d("Total on create", "" +total);
 
         DatabaseReference cartItems = FirebaseDatabase.getInstance().getReference().child("AddToCart")
                 .child(Objects.requireNonNull(getRef(position).getKey()));
-
 
 
         Glide.with(holder.img.getContext())
@@ -49,27 +54,42 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
 
         holder.incrementQty.setOnClickListener(v -> {
             int newQty = Integer.parseInt(holder.qty.getText().toString());
-            Log.d("Qty", ""+model.getQty());
+            double itemTotalPrice = model.getPrice();
+
             if (model.getQty() > newQty) {
                 newQty++;
                 holder.qty.setText(String.valueOf(newQty));
 
-                total[0] = newQty * model.getPrice();
-                holder.price.setText(String.format(Locale.UK,"%.2f", total[0]));
+                itemTotalPrice = itemTotalPrice * newQty;
+
+                total += model.getPrice();
+
+
+                holder.price.setText(String.format(Locale.UK,"%.2f", itemTotalPrice));
+                Log.d("Total increment", ""+total);
+                Log.d("itemTotalPrice", ""+itemTotalPrice);
+                Log.d("model.getPrice()", ""+model.getPrice());
             }
         });
 
         holder.decrementQty.setOnClickListener(v -> {
             int newQty = Integer.parseInt(holder.qty.getText().toString());
+            itemTotal = Double.parseDouble(holder.price.getText().toString());
+
+            Log.d("model.getPrice()", ""+model.getPrice());
+            Log.d("itemTotal", ""+itemTotal);
 
             if (newQty > 1) {
                 newQty--;
                 holder.qty.setText(String.valueOf(newQty));
-                total[0] -= model.getPrice();
-                holder.price.setText(String.format(Locale.UK,"%.2f", total[0]));
+
+                itemTotal -= model.getPrice();
+                total -= model.getPrice();
+
+                holder.price.setText(String.format(Locale.UK,"%.2f", itemTotal));
+                Log.d("Total decrement", ""+total);
             } else
                 removeFromCart(cartItems, holder);
-
         });
     }
 
@@ -101,9 +121,11 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         }
     }
 
-    private void removeFromCart(DatabaseReference cartItems, @NonNull CartAdapter.myViewHolder holder) {
+    private void removeFromCart(DatabaseReference cartItems, @NonNull myViewHolder holder) {
         cartItems.removeValue();
         Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " was removed from cart ", Toast.LENGTH_SHORT).show();
+        total -= Double.parseDouble(holder.price.getText().toString());
+        Log.d("Total delete", ""+ total);
     }
 }
 
