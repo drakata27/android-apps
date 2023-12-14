@@ -2,18 +2,44 @@ package com.example.videogamesstore;
 
 public class Games {
 
-    private String name, platform, imgurl;
+    private String name, platform, imgurl, mKey;
     private Double price;
-    private int qty;
+    private int qty, currQty;
 
     public Games() {}
 
-    public Games(String name, String platform, String imgurl, Double price, int qty) {
+//    public Games(String name, String platform, String imgurl, Double price, int qty) {
+//        this.name = name;
+//        this.platform = platform;
+//        this.imgurl = imgurl;
+//        this.price = price;
+//        this.qty = qty;
+//    }
+
+    public Games(String name, String platform, String imgurl, Double price, int qty, int currQty, String mKey) {
         this.name = name;
         this.platform = platform;
         this.imgurl = imgurl;
         this.price = price;
         this.qty = qty;
+        this.currQty = currQty;
+        this.mKey = mKey;
+    }
+
+    public String getKey() {
+        return mKey;
+    }
+
+    public void setKey(String mKey) {
+        this.mKey = mKey;
+    }
+
+    public int getCurrQty() {
+        return currQty;
+    }
+
+    public void setCurrQty(int currQty) {
+        this.currQty = currQty;
     }
 
     public String getName() {

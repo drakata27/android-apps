@@ -74,6 +74,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                         cartItems.put("imgurl", String.valueOf(model.getImgurl()));
                         cartItems.put("qty", model.getQty());
 
+                        cartItems.put("currQty", model.getCurrQty()); //TODO
+
                         reference.child(cartId).setValue(cartItems);
 
                         Toast.makeText(holder.name.getContext(), model.getName() + " added to cart", Toast.LENGTH_SHORT).show();
@@ -101,7 +103,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
         ImageView img;
         TextView name, platform, price, qty;
 
-        ImageButton addToCartBtn, decrementQty, incrementQty;
+        ImageButton addToCartBtn;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,8 +115,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
             qty = itemView.findViewById(R.id.qtyText);
 
             addToCartBtn = itemView.findViewById(R.id.addToCartBtn);
-//            incrementQty = itemView.findViewById(R.id.qtyIncrementBtn);
-//            decrementQty = itemView.findViewById(R.id.qtyDecrementBtn);
         }
     }
 }

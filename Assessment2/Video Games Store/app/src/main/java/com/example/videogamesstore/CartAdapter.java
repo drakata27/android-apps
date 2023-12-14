@@ -1,3 +1,4 @@
+//Snippet 1
 package com.example.videogamesstore;
 
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myViewHolder>{
     private double total;
     private double itemTotal;
+    int newQty;
     private final CartTotalListener cartTotalListener;
 
     public CartAdapter(@NonNull FirebaseRecyclerOptions<Games> options, CartTotalListener cartTotalListener) {
@@ -36,7 +38,12 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
-        itemTotal = Double.parseDouble(holder.price.getText().toString());
+        holder.qty.setText(String.valueOf(model.getCurrQty()));
+
+        itemTotal = model.getPrice() * model.getCurrQty();
+        holder.price.setText(String.format(Locale.UK,"%.2f", itemTotal));
+
+        newQty = Integer.parseInt(holder.qty.getText().toString());
 
         total += Double.parseDouble(holder.price.getText().toString());
 
@@ -53,32 +60,25 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         holder.removeItemBtn.setOnClickListener(v -> removeFromCart(cartItems, holder));
 
         holder.incrementQty.setOnClickListener(v -> {
-            int newQty = Integer.parseInt(holder.qty.getText().toString());
-            double itemTotalPrice = model.getPrice();
+            newQty = Integer.parseInt(holder.qty.getText().toString());
 
             if (model.getQty() > newQty) {
                 newQty++;
                 holder.qty.setText(String.valueOf(newQty));
-                itemTotalPrice = itemTotalPrice * newQty;
+                cartItems.child("currQty").setValue(newQty);
                 total += model.getPrice();
-                holder.price.setText(String.format(Locale.UK,"%.2f", itemTotalPrice));
-
                 updateTotal(total);
             }
         });
 
         holder.decrementQty.setOnClickListener(v -> {
-            int newQty = Integer.parseInt(holder.qty.getText().toString());
-            itemTotal = Double.parseDouble(holder.price.getText().toString());
+            newQty = Integer.parseInt(holder.qty.getText().toString());
 
             if (newQty > 1) {
                 newQty--;
                 holder.qty.setText(String.valueOf(newQty));
-
-                itemTotal -= model.getPrice();
+                cartItems.child("currQty").setValue(newQty);
                 total -= model.getPrice();
-
-                holder.price.setText(String.format(Locale.UK,"%.2f", itemTotal));
                 updateTotal(total);
             } else
                 removeFromCart(cartItems, holder);
@@ -120,11 +120,30 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         updateTotal(total);
     }
 
+
     private void updateTotal(double total) {
         if (cartTotalListener != null) {
             cartTotalListener.onCartTotalUpdated(total);
         }
     }
+
+    // TODO create a method to update qty
+//    private void updateQty(String operation, @NonNull CartAdapter.myViewHolder holder,
+//                           @NonNull Games model, DatabaseReference reference) {
+//        switch (operation){
+//            case "+":
+//                newQty++;
+//                holder.qty.setText(String.valueOf(newQty));
+//                reference.child("currQty").setValue(newQty);
+//                total += model.getPrice();
+//            case "-":
+//                newQty--;
+//                holder.qty.setText(String.valueOf(newQty));
+//                reference.child("currQty").setValue(newQty);
+//                total -= model.getPrice();
+//        }
+//        updateTotal(total);
+//    }
 
     public void updateTotalInAdapter() {
         if (cartTotalListener != null) {
@@ -136,5 +155,3 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         return total;
     }
 }
-
-
