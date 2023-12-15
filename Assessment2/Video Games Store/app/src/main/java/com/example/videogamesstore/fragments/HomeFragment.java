@@ -1,31 +1,45 @@
-package com.example.videogamesstore;
+package com.example.videogamesstore.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.videogamesstore.databinding.ActivityMainBinding;
+import com.example.videogamesstore.models.Games;
+import com.example.videogamesstore.R;
+import com.example.videogamesstore.adapters.MainAdapter;
+import com.example.videogamesstore.databinding.FragmentHomeBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeFragment extends Fragment {
 
-    private ActivityMainBinding binding;
+    private FragmentHomeBinding binding;
     private MainAdapter mainAdapter;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        setHasOptionsMenu(true); // Enable options menu for the fragment
+
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         FirebaseRecyclerOptions<Games> options =
                 new FirebaseRecyclerOptions.Builder<Games>()
@@ -34,28 +48,23 @@ public class MainActivity extends AppCompatActivity {
 
         mainAdapter = new MainAdapter(options);
         binding.recyclerView.setAdapter(mainAdapter);
-        
-        binding.floatingActionButton.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), CartActivity.class));
-        });
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         mainAdapter.startListening();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
-        mainAdapter.startListening();
+        mainAdapter.stopListening();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.search, menu);
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) item.getActionView();
 
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void txtSearch(String str) {
@@ -86,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                 child("videogames").
                                 orderByChild("name").
                                 startAt(str)
-                                .endAt(str+"~"), Games.class).build();
+                                .endAt(str + "~"), Games.class).build();
 
         mainAdapter = new MainAdapter(options);
         mainAdapter.startListening();

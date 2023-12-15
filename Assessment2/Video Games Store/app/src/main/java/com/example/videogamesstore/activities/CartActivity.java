@@ -1,4 +1,4 @@
-package com.example.videogamesstore;
+package com.example.videogamesstore.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -7,13 +7,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.videogamesstore.adapters.CartAdapter;
+import com.example.videogamesstore.interfaces.CartTotalListener;
+import com.example.videogamesstore.models.Games;
 import com.example.videogamesstore.databinding.ActivityCartBinding;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Locale;
 
-public class CartActivity extends AppCompatActivity implements CartTotalListener{
+public class CartActivity extends AppCompatActivity implements CartTotalListener {
     private ActivityCartBinding binding;
     private CartAdapter cartAdapter;
 

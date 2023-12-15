@@ -1,4 +1,4 @@
-package com.example.videogamesstore;
+package com.example.videogamesstore.models;
 
 public class Games {
 
