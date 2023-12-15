@@ -1,6 +1,6 @@
-//Snippet 1
 package com.example.videogamesstore;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +18,19 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
+// TODO create a method to update qty
 public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myViewHolder>{
     private double total;
-    private double itemTotal;
-    int newQty;
+    private int newQty;
     private final CartTotalListener cartTotalListener;
+    ArrayList<Double> totalList = new ArrayList<>();
 
-    public CartAdapter(@NonNull FirebaseRecyclerOptions<Games> options, CartTotalListener cartTotalListener) {
+    public CartAdapter(@NonNull FirebaseRecyclerOptions<Games> options, CartTotalListener cartTotalListener  ) {
         super(options);
-        total = 0;
         this.cartTotalListener = cartTotalListener;
     }
 
@@ -40,12 +41,19 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
         holder.price.setText(String.valueOf(model.getPrice()));
         holder.qty.setText(String.valueOf(model.getCurrQty()));
 
-        itemTotal = model.getPrice() * model.getCurrQty();
+        double itemTotal = model.getPrice() * model.getCurrQty();
         holder.price.setText(String.format(Locale.UK,"%.2f", itemTotal));
 
         newQty = Integer.parseInt(holder.qty.getText().toString());
 
-        total += Double.parseDouble(holder.price.getText().toString());
+        totalList.add(itemTotal);
+
+        total = calculateTotal(totalList);
+        updateTotal(total);
+
+
+        Log.d("Total list", ""+totalList);
+        Log.d("Total variable", ""+total);
 
         DatabaseReference cartItems = FirebaseDatabase.getInstance().getReference().child("AddToCart")
                 .child(Objects.requireNonNull(getRef(position).getKey()));
@@ -63,11 +71,17 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
             newQty = Integer.parseInt(holder.qty.getText().toString());
 
             if (model.getQty() > newQty) {
+                totalList.remove(Double.parseDouble(holder.price.getText().toString()));
+
                 newQty++;
                 holder.qty.setText(String.valueOf(newQty));
                 cartItems.child("currQty").setValue(newQty);
-                total += model.getPrice();
-                updateTotal(total);
+
+                total = calculateTotal(totalList);
+//                updateTotal(total);
+
+                Log.d("Total", ""+total);
+
             }
         });
 
@@ -75,11 +89,17 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
             newQty = Integer.parseInt(holder.qty.getText().toString());
 
             if (newQty > 1) {
+                totalList.remove(Double.parseDouble(holder.price.getText().toString()));
+
                 newQty--;
+
                 holder.qty.setText(String.valueOf(newQty));
                 cartItems.child("currQty").setValue(newQty);
-                total -= model.getPrice();
-                updateTotal(total);
+                total = calculateTotal(totalList);
+//                updateTotal(total);
+
+                Log.d("Total", ""+total);
+
             } else
                 removeFromCart(cartItems, holder);
         });
@@ -114,10 +134,15 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
     }
 
     private void removeFromCart(DatabaseReference cartItems, @NonNull myViewHolder holder) {
+        totalList.remove(Double.parseDouble(holder.price.getText().toString()));
+
         cartItems.removeValue();
         Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " was removed from cart ", Toast.LENGTH_SHORT).show();
-        total -= Double.parseDouble(holder.price.getText().toString());
+        total = calculateTotal(totalList);
         updateTotal(total);
+
+        Log.d("Total list", ""+totalList);
+        Log.d("Total variable remove", ""+total);
     }
 
 
@@ -126,29 +151,18 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
             cartTotalListener.onCartTotalUpdated(total);
         }
     }
-
-    // TODO create a method to update qty
-//    private void updateQty(String operation, @NonNull CartAdapter.myViewHolder holder,
-//                           @NonNull Games model, DatabaseReference reference) {
-//        switch (operation){
-//            case "+":
-//                newQty++;
-//                holder.qty.setText(String.valueOf(newQty));
-//                reference.child("currQty").setValue(newQty);
-//                total += model.getPrice();
-//            case "-":
-//                newQty--;
-//                holder.qty.setText(String.valueOf(newQty));
-//                reference.child("currQty").setValue(newQty);
-//                total -= model.getPrice();
-//        }
-//        updateTotal(total);
-//    }
-
     public void updateTotalInAdapter() {
         if (cartTotalListener != null) {
             cartTotalListener.onCartTotalUpdated(total);
         }
+    }
+
+    private double calculateTotal(ArrayList<Double> totalList){
+        double total = 0;
+        for (double itemTotal : totalList) {
+            total += itemTotal;
+        }
+        return total;
     }
 
     public double getTotal() {

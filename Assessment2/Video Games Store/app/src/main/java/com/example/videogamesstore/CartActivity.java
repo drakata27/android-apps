@@ -33,10 +33,10 @@ public class CartActivity extends AppCompatActivity implements CartTotalListener
 
         cartAdapter = new CartAdapter(options, this);
         binding.recyclerView.setAdapter(cartAdapter);
-//        cartAdapter.updateTotalInAdapter();
-        binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", cartAdapter.getTotal()));
 
         binding.backArrow.setOnClickListener(v -> finish());
+
+
 
         binding.checkoutBtn.setOnClickListener(v -> {
             Toast.makeText(getApplicationContext(), "Proceeding to checkout. Your total is £" + cartAdapter.getTotal(), Toast.LENGTH_SHORT).show();
@@ -44,7 +44,7 @@ public class CartActivity extends AppCompatActivity implements CartTotalListener
         });
 
         cartAdapter.updateTotalInAdapter();
-//        binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", cartAdapter.getTotal()));
+
     }
 
     @Override
@@ -56,7 +56,6 @@ public class CartActivity extends AppCompatActivity implements CartTotalListener
     @Override
     protected void onResume() {
         super.onResume();
-        cartAdapter.updateTotalInAdapter();
     }
 
     @Override
@@ -69,4 +68,5 @@ public class CartActivity extends AppCompatActivity implements CartTotalListener
     public void onCartTotalUpdated(double total) {
         binding.totalTxt.setText("Total: £" + String.format(Locale.UK,"%.2f", total));
     }
+
 }
