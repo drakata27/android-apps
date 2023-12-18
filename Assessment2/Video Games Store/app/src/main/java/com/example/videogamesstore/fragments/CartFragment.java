@@ -28,9 +28,8 @@ public class CartFragment extends Fragment implements CartTotalListener {
     private CartAdapter cartAdapter;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         binding = FragmentCartBinding.inflate(inflater, container, false);
         binding.totalTxt.postDelayed(() -> binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal())), 500);
 
@@ -54,11 +53,15 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
 
         binding.checkoutBtn.setOnClickListener(v -> {
-            Toast.makeText(requireContext(), "Proceeding to checkout. Your total is £" + cartAdapter.getTotal(), Toast.LENGTH_SHORT).show();
-            binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal()));
+            if(cartAdapter.getTotal() == 0) {
+                Toast.makeText(requireContext(), "You don't have any items in your cart", Toast.LENGTH_SHORT).show();
+                binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal()));
+            } else {
+                Toast.makeText(requireContext(), "Proceeding to checkout. Your total is £" + cartAdapter.getTotal(), Toast.LENGTH_SHORT).show();
+                binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal()));
+            }
         });
 
-//        cartAdapter.updateTotalInAdapter();
     }
 
     @Override
