@@ -26,15 +26,16 @@
         android:textSize="26sp" />
 
     <LinearLayout
+        android:id="@+id/linearLayoutBtns"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="65dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
-            android:id="@+id/sign_in_btn"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/rounded_ui_button"
@@ -45,8 +46,8 @@
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/register_btn"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -59,7 +60,9 @@
 
     </LinearLayout>
 
+
     <TextView
+        android:id="@+id/reset_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
