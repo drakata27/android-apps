@@ -45,18 +45,6 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                 .into(holder.img);
 
         holder.addToCartBtn.setOnClickListener(v -> {
-//            String cartId = reference.push().getKey();
-//
-//            HashMap<String, Object> cartItems = new HashMap<>();
-//            cartItems.put("name", model.getName());
-//            cartItems.put("platform", model.getPlatform());
-//            cartItems.put("price", model.getPrice());
-//            cartItems.put("imgurl", String.valueOf(model.getImgurl()));
-//            cartItems.put("qty", model.getQty());
-//
-//            reference.child(cartId).setValue(cartItems);
-//
-//            Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " added to cart", Toast.LENGTH_SHORT).show();
 
             Query query = reference.orderByChild("name").equalTo(model.getName());
             query.addListenerForSingleValueEvent(new ValueEventListener() {

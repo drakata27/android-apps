@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,11 +50,24 @@ public class AccountFragment extends Fragment {
                 Toast.makeText(getContext(), "You are signed out", Toast.LENGTH_SHORT).show();
             });
 
-            binding.btn2.setOnClickListener(v -> startActivity(new Intent(getContext(), ResetPasswordActivity.class)));
+            binding.btn2.setOnClickListener(v -> {
+                String email = auth.getCurrentUser().getEmail();
+
+                auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "Password reset email sent.", Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                        signOut();
+                    } else {
+                        Toast.makeText(getContext(), "Failed to reset password.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
         }
         return binding.getRoot();
     }
 
+    @SuppressLint("SetTextI18n")
     private void signOut() {
         binding.resetPassword.setVisibility(View.VISIBLE);
         binding.userTextview.setText("You are not signed in");
