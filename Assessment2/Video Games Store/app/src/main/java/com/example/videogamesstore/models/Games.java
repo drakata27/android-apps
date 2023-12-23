@@ -8,14 +8,6 @@ public class Games {
 
     public Games() {}
 
-//    public Games(String name, String platform, String imgurl, Double price, int qty) {
-//        this.name = name;
-//        this.platform = platform;
-//        this.imgurl = imgurl;
-//        this.price = price;
-//        this.qty = qty;
-//    }
-
     public Games(String name, String platform, String imgurl, Double price, int qty, int currQty, String mKey) {
         this.name = name;
         this.platform = platform;
@@ -26,13 +18,13 @@ public class Games {
         this.mKey = mKey;
     }
 
-    public String getKey() {
-        return mKey;
-    }
-
-    public void setKey(String mKey) {
-        this.mKey = mKey;
-    }
+//    public String getKey() {
+//        return mKey;
+//    }
+//
+//    public void setKey(String mKey) {
+//        this.mKey = mKey;
+//    }
 
     public int getCurrQty() {
         return currQty;

@@ -17,6 +17,8 @@ import com.example.videogamesstore.models.Games;
 import com.example.videogamesstore.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myViewHolder> {
+    String userId;
+    private FirebaseUser user;
+
     public MainAdapter(@NonNull FirebaseRecyclerOptions<Games> options) {
         super(options);
     }
@@ -37,6 +42,9 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         Glide.with(holder.img.getContext())
                 .load(model.getImgurl())
@@ -54,6 +62,12 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                         // Item already in the cart
                         Toast.makeText(holder.name.getContext(), model.getName() + " is already in the cart", Toast.LENGTH_SHORT).show();
                     } else {
+                        if (user != null) {
+                            userId = user.getUid();
+                        } else {
+                            userId = "";
+                        }
+
                         // Item not in the cart, add it
                         String cartId = reference.push().getKey();
 
@@ -63,6 +77,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                         cartItems.put("price", model.getPrice());
                         cartItems.put("imgurl", String.valueOf(model.getImgurl()));
                         cartItems.put("qty", model.getQty());
+                        cartItems.put("userId", userId);
 
                         cartItems.put("currQty", model.getCurrQty()); //TODO
 
