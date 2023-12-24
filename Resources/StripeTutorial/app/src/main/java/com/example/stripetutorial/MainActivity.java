@@ -1,0 +1,203 @@
+package com.example.stripetutorial;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.stripetutorial.databinding.ActivityMainBinding;
+import com.stripe.android.PaymentConfiguration;
+import com.stripe.android.paymentsheet.PaymentSheet;
+import com.stripe.android.paymentsheet.PaymentSheetResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
+    String publishableKey = "pk_test_51NNFfKKEjjyTT4MxXL5Hle8qe8A2I2Zv3aqF1g1JPcPPpd9CGVvpSc6BsJBnhEV5XRFzimhT80N391NWrIlCKmRQ00wFPYfafO";
+    String secretKey = "sk_test_51NNFfKKEjjyTT4MxJbhTU41HjnIKGGlwDdySTPbpkvnBRL3AKhKZtEY33XlhUKKl8mymM1UARUVy2tnZg5O6akxf00TrEnTa9q";
+
+    String customerId;
+    String ephemeralKey;
+    String clientSecret;
+    private transient PaymentSheet paymentSheet;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        PaymentConfiguration.init(this, publishableKey);
+
+        paymentSheet = new PaymentSheet(this, this::onPaymentResult);
+
+        binding.payBtn.setOnClickListener(view -> paymentFlow());
+
+        StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/customers",
+                response -> {
+                    try {
+                        JSONObject object = new JSONObject(response);
+
+                        customerId = object.getString("id");
+                        Toast.makeText(MainActivity.this, "customerId"+customerId, Toast.LENGTH_SHORT).show();
+
+                        getEphemeralKey();
+
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }, error -> {
+                    Toast.makeText(MainActivity.this, "error "+error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("StripeTutorial", "Volley Error: " + error, error);
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization", "Bearer " + secretKey);
+                header.put("Stripe-Version", "2022-11-15");
+                return header;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private void paymentFlow() {
+        if (customerId != null && ephemeralKey != null) {
+            paymentSheet.presentWithPaymentIntent(clientSecret, new PaymentSheet.Configuration("Aleks", new PaymentSheet.CustomerConfiguration(
+                    customerId,
+                    ephemeralKey
+            )));
+        } else {
+            Toast.makeText(this, "customer id: " + customerId + ", ephemeralKey: " + ephemeralKey, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
+
+        if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+            // Extract necessary information from the completed result
+            PaymentSheetResult.Completed completedResult = (PaymentSheetResult.Completed) paymentSheetResult;
+
+            Toast.makeText(this, "Payment Successful!" + completedResult, Toast.LENGTH_SHORT).show();
+            Log.d("Completed result", ""+completedResult);
+            restartActivity();
+
+
+        } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
+            // Handle cancellation if needed
+            Toast.makeText(this, "Payment Canceled", Toast.LENGTH_SHORT).show();
+        } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
+            // Handle failure if needed
+            PaymentSheetResult.Failed failedResult = (PaymentSheetResult.Failed) paymentSheetResult;
+            Toast.makeText(this, "Payment Failed: " + failedResult.getError(), Toast.LENGTH_SHORT).show();
+            Log.d("Payment Failed: ", failedResult.getError().toString());
+        }
+    }
+
+    private void getEphemeralKey() {
+        StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/ephemeral_keys",
+                response -> {
+                    try {
+                        JSONObject object = new JSONObject(response);
+
+                        ephemeralKey = object.getString("id");
+
+                        Toast.makeText(MainActivity.this, "customerId 2"+ ephemeralKey, Toast.LENGTH_SHORT).show();
+
+                        getClientSecret(customerId, ephemeralKey);
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }, error -> {
+                    Toast.makeText(MainActivity.this, "error 2"+error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("Error 2", "error 2"+error.getLocalizedMessage());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization", "Bearer " + secretKey);
+                header.put("Stripe-Version", "2022-11-15");
+                return header;
+            }
+
+            @NonNull
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("customer", customerId);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private void getClientSecret(String customerId, String ephemeralKey) {
+        StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/payment_intents",
+                response -> {
+                    try {
+                        JSONObject object = new JSONObject(response);
+
+                        clientSecret = object.getString("client_secret");
+                        Toast.makeText(MainActivity.this, "client secret"+clientSecret, Toast.LENGTH_SHORT).show();
+
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }, error -> {
+                    Toast.makeText(MainActivity.this, "error 3"+error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("Error 3", "error 3"+error.getLocalizedMessage());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization", "Bearer " + secretKey);
+                return header;
+            }
+
+            @NonNull
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("customer", customerId);
+//                params.put("amount", "100"+"00");
+                params.put("amount", binding.total.getText().toString());
+                params.put("currency", "GBP");
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish(); // Finish the current activity
+        startActivity(intent); // Start a new instance of the activity
+    }
+
+}
