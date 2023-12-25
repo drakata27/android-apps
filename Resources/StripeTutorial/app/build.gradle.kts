@@ -43,6 +43,7 @@ dependencies {
     implementation("com.stripe:stripe-android:20.36.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("io.github.cdimascio:dotenv-java:3.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
