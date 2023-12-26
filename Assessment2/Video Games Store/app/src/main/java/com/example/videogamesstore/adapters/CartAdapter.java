@@ -81,9 +81,6 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
                 cartItems.child("currQty").setValue(newQty);
 
                 total = calculateTotal(totalList);
-//                updateTotal(total);
-
-                Log.d("Total", ""+total);
 
             }
         });
@@ -99,9 +96,6 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
                 holder.qty.setText(String.valueOf(newQty));
                 cartItems.child("currQty").setValue(newQty);
                 total = calculateTotal(totalList);
-//                updateTotal(total);
-
-                Log.d("Total", ""+total);
 
             } else
                 removeFromCart(cartItems, holder);

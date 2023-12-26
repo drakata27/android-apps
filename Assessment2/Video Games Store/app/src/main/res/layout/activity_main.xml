@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+  <TextView
+      android:id="@+id/test_textview"
+      android:layout_width="match_parent"
+      android:visibility="gone"
+      android:layout_height="match_parent"
+      android:textSize="66sp"
+      android:text="3600"/>
+
   <FrameLayout
       android:id="@+id/frame_layout_start"
       android:layout_width="0dp"

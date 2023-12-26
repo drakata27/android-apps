@@ -3,6 +3,7 @@ package com.example.videogamesstore.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.example.videogamesstore.activities.SignInActivity;
 import com.example.videogamesstore.databinding.FragmentAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AccountFragment extends Fragment {
     private FragmentAccountBinding binding;
@@ -82,4 +85,21 @@ public class AccountFragment extends Fragment {
 
         binding.resetPassword.setOnClickListener(v -> startActivity(new Intent(getContext(), ResetPasswordActivity.class)));
     }
+
+    private void clearUserBasket() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
+
+        // Remove all items in the "AddToCart" node
+        reference.removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    // Basket cleared successfully
+                    Toast.makeText(getContext(), "Basket cleared", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    // Failed to clear basket
+                    Toast.makeText(getContext(), "Failed to clear basket", Toast.LENGTH_SHORT).show();
+                    Log.e("Firebase", "Error clearing basket: " + e.getMessage());
+                });
+    }
+
 }
