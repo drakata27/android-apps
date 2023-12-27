@@ -52,7 +52,11 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
 
     implementation("com.braintreepayments:card-form:5.4.0")
+    implementation("com.orhanobut:dialogplus:1.11@aar")
 
+    implementation(files("libs/activation.jar"))
+    implementation(files("libs/additionnal.jar"))
+    implementation(files("libs/mail.jar"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

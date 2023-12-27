@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.videogamesstore.interfaces.CartTotalListener;
-import com.example.videogamesstore.models.Games;
+import com.example.videogamesstore.models.Game;
 import com.example.videogamesstore.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -26,19 +26,19 @@ import java.util.Locale;
 import java.util.Objects;
 
 // TODO create a method to update qty
-public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myViewHolder>{
+public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myViewHolder>{
     private double total;
     private int newQty;
     private final CartTotalListener cartTotalListener;
     ArrayList<Double> totalList = new ArrayList<>();
 
-    public CartAdapter(@NonNull FirebaseRecyclerOptions<Games> options, CartTotalListener cartTotalListener  ) {
+    public CartAdapter(@NonNull FirebaseRecyclerOptions<Game> options, CartTotalListener cartTotalListener  ) {
         super(options);
         this.cartTotalListener = cartTotalListener;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CartAdapter.myViewHolder holder, int position, @NonNull Games model) {
+    protected void onBindViewHolder(@NonNull CartAdapter.myViewHolder holder, int position, @NonNull Game model) {
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
@@ -53,10 +53,6 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Games, CartAdapter.myV
 
         total = calculateTotal(totalList);
         updateTotal(total);
-
-
-        Log.d("Total list", ""+totalList);
-        Log.d("Total variable", ""+total);
 
         DatabaseReference cartItems = FirebaseDatabase.getInstance().getReference().child("AddToCart")
                 .child(Objects.requireNonNull(getRef(position).getKey()));

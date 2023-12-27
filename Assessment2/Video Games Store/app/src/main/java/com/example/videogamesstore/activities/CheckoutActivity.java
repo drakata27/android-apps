@@ -60,15 +60,6 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void clearCart() {
-        FirebaseDatabase.getInstance().getReference().child("AddToCart").removeValue()
-                .addOnSuccessListener(aVoid -> {
-                    // Handle successful deletion
-                    Toast.makeText(getApplicationContext(), "AddToCart node deleted successfully", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    // Handle failed deletion
-                    Toast.makeText(getApplicationContext(), "Failed to delete AddToCart node", Toast.LENGTH_SHORT).show();
-                });
-
+        FirebaseDatabase.getInstance().getReference().child("AddToCart").removeValue();
     }
 }

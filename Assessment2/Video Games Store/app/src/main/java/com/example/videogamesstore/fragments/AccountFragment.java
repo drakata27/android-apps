@@ -3,7 +3,6 @@ package com.example.videogamesstore.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +49,7 @@ public class AccountFragment extends Fragment {
             binding.btn1.setOnClickListener(v -> {
                 FirebaseAuth.getInstance().signOut();
                 signOut();
+//                clearUserBasket();
                 Toast.makeText(getContext(), "You are signed out", Toast.LENGTH_SHORT).show();
             });
 
@@ -82,24 +82,12 @@ public class AccountFragment extends Fragment {
         binding.btn2.setOnClickListener(v -> startActivity(new Intent(getContext(), RegisterActivity.class)));
         binding.btn2.setText("Register");
 
-
         binding.resetPassword.setOnClickListener(v -> startActivity(new Intent(getContext(), ResetPasswordActivity.class)));
     }
 
-    private void clearUserBasket() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
-
-        // Remove all items in the "AddToCart" node
-        reference.removeValue()
-                .addOnSuccessListener(aVoid -> {
-                    // Basket cleared successfully
-                    Toast.makeText(getContext(), "Basket cleared", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    // Failed to clear basket
-                    Toast.makeText(getContext(), "Failed to clear basket", Toast.LENGTH_SHORT).show();
-                    Log.e("Firebase", "Error clearing basket: " + e.getMessage());
-                });
-    }
+//    private void clearUserBasket() {
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
+//        reference.removeValue();
+//    }
 
 }

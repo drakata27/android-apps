@@ -1,32 +1,42 @@
 package com.example.videogamesstore.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.videogamesstore.activities.CheckoutActivity;
-import com.example.videogamesstore.activities.MainActivity;
-import com.example.videogamesstore.activities.RegisterActivity;
+import com.braintreepayments.cardform.view.CardForm;
+import com.example.videogamesstore.R;
 import com.example.videogamesstore.adapters.CartAdapter;
 import com.example.videogamesstore.databinding.FragmentCartBinding;
 import com.example.videogamesstore.interfaces.CartTotalListener;
-import com.example.videogamesstore.models.Games;
+import com.example.videogamesstore.models.Game;
+import com.example.videogamesstore.models.Order;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CartFragment extends Fragment implements CartTotalListener {
 
@@ -34,24 +44,29 @@ public class CartFragment extends Fragment implements CartTotalListener {
     private CartAdapter cartAdapter;
     FirebaseAuth auth;
     FirebaseUser user;
+    Calendar calendar;
+    Date currentDate;
+    String currentDateTime;
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentCartBinding.inflate(inflater, container, false);
-        binding.totalTxt.postDelayed(() -> {
-            binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal()));
-        }, 30);
+        binding.totalTxt.postDelayed(() -> binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal())), 30);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        FirebaseRecyclerOptions<Games> options =
-                new FirebaseRecyclerOptions.Builder<Games>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("AddToCart"), Games.class)
+        calendar = Calendar.getInstance();
+        currentDate = calendar.getTime();
+        currentDateTime = currentDate.toString();
+
+        FirebaseRecyclerOptions<Game> options =
+                new FirebaseRecyclerOptions.Builder<Game>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("AddToCart"), Game.class)
                         .build();
 
         cartAdapter = new CartAdapter(options, this);
@@ -66,14 +81,18 @@ public class CartFragment extends Fragment implements CartTotalListener {
                     binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal()));
                 } else {
                     binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal()));
-                    startActivity(new Intent(getContext(), CheckoutActivity.class));
+                    showCheckout();
                 }
             }
         });
 
+        showData("nw72ql");
+        Log.d("Curr date time", ""+currentDateTime);
+
         return binding.getRoot();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onStart() {
         super.onStart();
@@ -81,6 +100,7 @@ public class CartFragment extends Fragment implements CartTotalListener {
         cartAdapter.notifyDataSetChanged();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onStop() {
         super.onStop();
@@ -93,5 +113,120 @@ public class CartFragment extends Fragment implements CartTotalListener {
     public void onCartTotalUpdated(double total) {
 
         binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", total));
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void showCheckout() {
+        final DialogPlus dialogPlus = DialogPlus.newDialog(getContext())
+                .setContentHolder(new ViewHolder(R.layout.checkout_popup))
+                .setExpanded(true, 1200)
+                .create();
+
+        View view = dialogPlus.getHolderView();
+        view.setPadding(26, 16, 26, 16);
+
+        CardForm cardForm = view.findViewById(R.id.card_form);
+        Button payBtn = view.findViewById(R.id.pay_btn);
+
+        cardForm.cardRequired(true)
+                .expirationRequired(true)
+                .cvvRequired(true)
+                .postalCodeRequired(true)
+                .setup(getActivity());
+
+        cardForm.getCvvEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+
+        payBtn.setText("Pay £" + cartAdapter.getTotal());
+
+        dialogPlus.show();
+
+        payBtn.setOnClickListener(v -> {
+            if(cardForm.isValid()) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+                alertBuilder.setTitle("Confirm before purchase");
+                alertBuilder.setMessage("Card number: " + cardForm.getCardNumber() + "\n" +
+                        "Card expiry date: " + Objects.requireNonNull(cardForm.getExpirationDateEditText().getText()) + "\n" +
+                        "Card CVV: " + cardForm.getCvv() + "\n" +
+                        "Postal code: " + cardForm.getPostalCode());
+
+                alertBuilder.setPositiveButton("Confirm", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    Toast.makeText(getContext(), "Thank you for purchase", Toast.LENGTH_LONG).show();
+                    processOrder(cardForm.getPostalCode());
+                    clearCart();
+                    dialogPlus.dismiss();
+                });
+                alertBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss());
+                AlertDialog alertDialog = alertBuilder.create();
+                alertDialog.show();
+            } else {
+                Toast.makeText(getContext(), "Please complete the form", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void clearCart() {
+        FirebaseDatabase.getInstance().getReference().child("AddToCart").removeValue();
+        binding.totalTxt.setText("Total: £0.00");
+    }
+
+    private void processOrder(String postCode) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("AddToCart");
+        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
+                    String orderId = mDatabase.push().getKey();
+                    String userId = user.getUid();
+                    String userEmail = user.getEmail();
+                    String name = cartItemSnapshot.child("name").getValue(String.class);
+                    String platform = cartItemSnapshot.child("platform").getValue(String.class);
+                    int currQty = cartItemSnapshot.child("currQty").getValue(Integer.class);
+                    double price = cartItemSnapshot.child("price").getValue(Double.class);
+
+                    Order order = new Order(userId, userEmail, name, currQty, price, platform, postCode, currentDateTime);
+                    orderRef.child(orderId).setValue(order);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error processing order", Toast.LENGTH_SHORT);
+                Log.d("Process Order", "Error processing order: " + error.getMessage());
+            }
+        });
+    }
+
+    private void showData(String postcode) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("AddToCart");
+        DatabaseReference vidGamesRef = FirebaseDatabase.getInstance().getReference("videogames");
+        DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
+                    String orderId = mDatabase.push().getKey();
+                    String userId = user.getUid();
+                    String userEmail = user.getEmail();
+                    String name = cartItemSnapshot.child("name").getValue(String.class);
+                    String platform = cartItemSnapshot.child("platform").getValue(String.class);
+                    int currQty = cartItemSnapshot.child("currQty").getValue(Integer.class);
+                    double price = cartItemSnapshot.child("price").getValue(Double.class);
+
+                    Order order = new Order(userId, userEmail, name, currQty, price, platform, postcode, currentDateTime);
+
+                    Log.d("Order", ""+order);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Log.d("vg1", "" + vidGamesRef.child("vg1"));
     }
 }

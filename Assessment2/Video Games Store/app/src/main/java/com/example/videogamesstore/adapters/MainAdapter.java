@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.videogamesstore.models.Games;
+import com.example.videogamesstore.models.Game;
 import com.example.videogamesstore.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -28,20 +28,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myViewHolder> {
+public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myViewHolder> {
     String userId;
     private FirebaseUser user;
+    String gameId;
 
-    public MainAdapter(@NonNull FirebaseRecyclerOptions<Games> options) {
+    public MainAdapter(@NonNull FirebaseRecyclerOptions<Game> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Games model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Game model) {
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
+        DatabaseReference videoGames = FirebaseDatabase.getInstance().getReference("videogames");
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -59,16 +61,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        // Item already in the cart
                         Toast.makeText(holder.name.getContext(), model.getName() + " is already in the cart", Toast.LENGTH_SHORT).show();
                     } else {
-                        if (user != null) {
-                            userId = user.getUid();
-                        } else {
-                            userId = "";
-                        }
-
-                        // Item not in the cart, add it
                         String cartId = reference.push().getKey();
 
                         HashMap<String, Object> cartItems = new HashMap<>();
@@ -77,9 +71,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Games, MainAdapter.myVi
                         cartItems.put("price", model.getPrice());
                         cartItems.put("imgurl", String.valueOf(model.getImgurl()));
                         cartItems.put("qty", model.getQty());
-                        cartItems.put("userId", userId);
-
-                        cartItems.put("currQty", model.getCurrQty()); //TODO
+                        cartItems.put("currQty", model.getCurrQty());
 
                         reference.child(cartId).setValue(cartItems);
 

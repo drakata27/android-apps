@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.videogamesstore.models.Games;
+import com.example.videogamesstore.models.Game;
 import com.example.videogamesstore.R;
 import com.example.videogamesstore.adapters.MainAdapter;
 import com.example.videogamesstore.databinding.FragmentHomeBinding;
@@ -41,9 +41,9 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        FirebaseRecyclerOptions<Games> options =
-                new FirebaseRecyclerOptions.Builder<Games>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("videogames"), Games.class)
+        FirebaseRecyclerOptions<Game> options =
+                new FirebaseRecyclerOptions.Builder<Game>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("videogames"), Game.class)
                         .build();
 
         mainAdapter = new MainAdapter(options);
@@ -87,15 +87,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void txtSearch(String str) {
-        FirebaseRecyclerOptions<Games> options =
-                new FirebaseRecyclerOptions.Builder<Games>()
+        FirebaseRecyclerOptions<Game> options =
+                new FirebaseRecyclerOptions.Builder<Game>()
                         .setQuery(FirebaseDatabase
                                 .getInstance()
                                 .getReference().
                                 child("videogames").
                                 orderByChild("name").
                                 startAt(str)
-                                .endAt(str + "~"), Games.class).build();
+                                .endAt(str + "~"), Game.class).build();
 
         mainAdapter = new MainAdapter(options);
         mainAdapter.startListening();

@@ -1,15 +1,13 @@
 package com.example.videogamesstore.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.videogamesstore.R;
-import com.example.videogamesstore.databinding.ActivityMainBinding;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.videogamesstore.databinding.ActivitySignInBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
