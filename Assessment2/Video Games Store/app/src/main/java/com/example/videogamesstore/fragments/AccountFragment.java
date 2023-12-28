@@ -61,6 +61,11 @@ public class AccountFragment extends Fragment {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Password reset email sent.", Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
+
+                        Intent intent = new Intent(getActivity(), SignInActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+
                         signOut();
                     } else {
                         Toast.makeText(getContext(), "Failed to reset password.", Toast.LENGTH_SHORT).show();
