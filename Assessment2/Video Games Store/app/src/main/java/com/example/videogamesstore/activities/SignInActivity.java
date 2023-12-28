@@ -22,7 +22,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
 
-        binding.backArrow.setOnClickListener(v -> finish());
+//        binding.backArrow.setOnClickListener(v -> finish());
 
         binding.registerTextview.setOnClickListener(v -> startActivity(new Intent(SignInActivity.this, RegisterActivity.class)));
         binding.resetPasswordTextview.setOnClickListener(v -> startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class)));

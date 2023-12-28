@@ -19,8 +19,6 @@ import com.example.videogamesstore.activities.SignInActivity;
 import com.example.videogamesstore.databinding.FragmentAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class AccountFragment extends Fragment {
     private FragmentAccountBinding binding;
@@ -50,6 +48,10 @@ public class AccountFragment extends Fragment {
                 FirebaseAuth.getInstance().signOut();
                 signOut();
                 Toast.makeText(getContext(), "You are signed out", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity(), SignInActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             });
 
             binding.btn2.setOnClickListener(v -> {
@@ -71,16 +73,16 @@ public class AccountFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void signOut() {
-        binding.resetPassword.setVisibility(View.VISIBLE);
-        binding.userTextview.setText("You are not signed in");
-
-        binding.btn1.setOnClickListener(v -> startActivity(new Intent(getContext(), SignInActivity.class)));
-        binding.btn1.setText("Sign In");
-        binding.btn1.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.blue));
-
-        binding.btn2.setOnClickListener(v -> startActivity(new Intent(getContext(), RegisterActivity.class)));
-        binding.btn2.setText("Register");
-
-        binding.resetPassword.setOnClickListener(v -> startActivity(new Intent(getContext(), ResetPasswordActivity.class)));
+//        binding.resetPassword.setVisibility(View.VISIBLE);
+//        binding.userTextview.setText("You are not signed in");
+//
+//        binding.btn1.setOnClickListener(v -> startActivity(new Intent(getContext(), SignInActivity.class)));
+//        binding.btn1.setText("Sign In");
+//        binding.btn1.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.blue));
+//
+//        binding.btn2.setOnClickListener(v -> startActivity(new Intent(getContext(), RegisterActivity.class)));
+//        binding.btn2.setText("Register");
+//
+//        binding.resetPassword.setOnClickListener(v -> startActivity(new Intent(getContext(), ResetPasswordActivity.class)));
     }
 }

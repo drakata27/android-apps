@@ -1,5 +1,6 @@
 package com.example.videogamesstore.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,9 +15,13 @@ import com.example.videogamesstore.fragments.AccountFragment;
 import com.example.videogamesstore.fragments.CartFragment;
 import com.example.videogamesstore.fragments.HomeFragment;
 import com.example.videogamesstore.interfaces.CartTotalListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements CartTotalListener {
     private ActivityMainBinding binding;
+    FirebaseAuth auth;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,16 +29,25 @@ public class MainActivity extends AppCompatActivity implements CartTotalListener
         setContentView(binding.getRoot());
         replaceFragments(new HomeFragment());
 
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.home) {
-                replaceFragments(new HomeFragment());
-            } else if (item.getItemId() == R.id.cart) {
-                replaceFragments(new CartFragment());
-            } else if (item.getItemId() == R.id.account) {
-                replaceFragments(new AccountFragment());
-            }
-            return true;
-        });
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if (user == null) {
+            Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+                if(item.getItemId() == R.id.home) {
+                    replaceFragments(new HomeFragment());
+                } else if (item.getItemId() == R.id.cart) {
+                    replaceFragments(new CartFragment());
+                } else if (item.getItemId() == R.id.account) {
+                    replaceFragments(new AccountFragment());
+                }
+                return true;
+            });
+        }
     }
 
     private void replaceFragments(Fragment fragment) {
