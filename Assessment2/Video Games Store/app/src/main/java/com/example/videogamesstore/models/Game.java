@@ -2,13 +2,15 @@ package com.example.videogamesstore.models;
 
 public class Game {
 
-    private String name, platform, imgurl;
+    private String userId, gameId, name, platform, imgurl;
     private Double price;
     private int qty, currQty;
 
     public Game() {}
 
-    public Game(String name, String platform, String imgurl, Double price, int qty, int currQty) {
+    public Game(String userId, String gameId, String name, String platform, String imgurl, Double price, int qty, int currQty) {
+        this.userId = userId;
+        this.gameId = gameId;
         this.name = name;
         this.platform = platform;
         this.imgurl = imgurl;
@@ -17,12 +19,24 @@ public class Game {
         this.currQty = currQty;
     }
 
-    public int getCurrQty() {
-        return currQty;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCurrQty(int currQty) {
-        this.currQty = currQty;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
+
+    public int getCurrQty() {
+        return currQty;
     }
 
     public String getName() {
@@ -37,31 +51,15 @@ public class Game {
         return platform;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
-    }
-
     public String getImgurl() {
         return imgurl;
-    }
-
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
     }
 
     public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public int getQty() {
         return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
     }
 }

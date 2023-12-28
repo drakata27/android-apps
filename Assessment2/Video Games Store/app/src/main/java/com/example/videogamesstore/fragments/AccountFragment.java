@@ -49,7 +49,6 @@ public class AccountFragment extends Fragment {
             binding.btn1.setOnClickListener(v -> {
                 FirebaseAuth.getInstance().signOut();
                 signOut();
-//                clearUserBasket();
                 Toast.makeText(getContext(), "You are signed out", Toast.LENGTH_SHORT).show();
             });
 
@@ -84,10 +83,4 @@ public class AccountFragment extends Fragment {
 
         binding.resetPassword.setOnClickListener(v -> startActivity(new Intent(getContext(), ResetPasswordActivity.class)));
     }
-
-//    private void clearUserBasket() {
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
-//        reference.removeValue();
-//    }
-
 }

@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.videogamesstore.models.Game;
 import com.example.videogamesstore.R;
+import com.example.videogamesstore.models.Game;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myViewHolder> {
-    String userId;
-    private FirebaseUser user;
-    String gameId;
+    FirebaseAuth auth;
+    FirebaseUser user;
+
 
     public MainAdapter(@NonNull FirebaseRecyclerOptions<Game> options) {
         super(options);
@@ -44,9 +44,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
         holder.price.setText(String.valueOf(model.getPrice()));
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
         DatabaseReference videoGames = FirebaseDatabase.getInstance().getReference("videogames");
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         Glide.with(holder.img.getContext())
                 .load(model.getImgurl())
@@ -55,27 +54,68 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                 .into(holder.img);
 
         holder.addToCartBtn.setOnClickListener(v -> {
+            String userId;
+
+            if (user == null) {
+                userId = "anonymousUser";
+            } else {
+                user.getUid();
+                userId = user.getUid();
+            }
 
             Query query = reference.orderByChild("name").equalTo(model.getName());
+
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
+                    boolean itemAlreadyInCart = false;
+
+                    for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
+                        String userId = cartItemSnapshot.child("userId").getValue(String.class);
+                        String itemName = cartItemSnapshot.child("name").getValue(String.class);
+
+                        if (userId != null && itemName != null &&
+                                userId.equals(user.getUid()) && itemName.equals(model.getName())) {
+                            itemAlreadyInCart = true;
+                            break;
+                        }
+                    }
+
+                    if (itemAlreadyInCart) {
                         Toast.makeText(holder.name.getContext(), model.getName() + " is already in the cart", Toast.LENGTH_SHORT).show();
                     } else {
-                        String cartId = reference.push().getKey();
+                        videoGames.orderByChild("name").equalTo(model.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
+                                    model.setUserId(userId);
+                                    model.setGameId(gameSnapshot.getKey());
 
-                        HashMap<String, Object> cartItems = new HashMap<>();
-                        cartItems.put("name", model.getName());
-                        cartItems.put("platform", model.getPlatform());
-                        cartItems.put("price", model.getPrice());
-                        cartItems.put("imgurl", String.valueOf(model.getImgurl()));
-                        cartItems.put("qty", model.getQty());
-                        cartItems.put("currQty", model.getCurrQty());
+                                    String cartId = reference.push().getKey();
 
-                        reference.child(cartId).setValue(cartItems);
+                                    HashMap<String, Object> cartItems = new HashMap<>();
+                                    cartItems.put("gameId", model.getGameId());
+                                    cartItems.put("userId", model.getUserId());
+                                    cartItems.put("name", model.getName());
+                                    cartItems.put("platform", model.getPlatform());
+                                    cartItems.put("price", model.getPrice());
+                                    cartItems.put("imgurl", String.valueOf(model.getImgurl()));
+                                    cartItems.put("qty", model.getQty());
+                                    cartItems.put("currQty", model.getCurrQty());
 
-                        Toast.makeText(holder.name.getContext(), model.getName() + " added to cart", Toast.LENGTH_SHORT).show();
+                                    Log.d("userId", userId);
+                                    Log.d("model.getUserId()", model.getUserId());
+
+                                    if (cartId != null)
+                                        reference.child(cartId).setValue(cartItems);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.d("videoGames", "" + error.getMessage());
+                            }
+                        });
                     }
                 }
 
@@ -84,6 +124,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                     Log.e("Firebase", "Error checking cart: " + error.getMessage());
                 }
             });
+
 
         });
 

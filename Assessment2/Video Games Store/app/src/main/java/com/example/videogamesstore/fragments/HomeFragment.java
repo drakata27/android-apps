@@ -43,8 +43,11 @@ public class HomeFragment extends Fragment {
 
         FirebaseRecyclerOptions<Game> options =
                 new FirebaseRecyclerOptions.Builder<Game>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("videogames"), Game.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("videogames")
+                        .orderByChild("qty")
+                        .startAt(1), Game.class)
                         .build();
+
 
         mainAdapter = new MainAdapter(options);
         binding.recyclerView.setAdapter(mainAdapter);
