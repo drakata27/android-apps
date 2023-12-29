@@ -54,7 +54,8 @@ public class CartFragment extends Fragment implements CartTotalListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentCartBinding.inflate(inflater, container, false);
-        binding.totalTxt.postDelayed(() -> binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", cartAdapter.getTotal())), 30);
+        binding.totalTxt.postDelayed(() -> binding.totalTxt.setText("Total: £"
+                + String.format(Locale.UK, "%.2f", cartAdapter.getTotal())), 300);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -90,28 +91,9 @@ public class CartFragment extends Fragment implements CartTotalListener {
             }
         });
 
-//        showData();
-        Log.d("Curr date time", ""+currentDateTime);
+        showData();
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        cartAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        cartAdapter.stopListening();
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onCartTotalUpdated(double total) {
-        binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", total));
     }
 
     @SuppressLint("SetTextI18n")
@@ -136,7 +118,7 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
             cardForm.getCvvEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
 
-            payBtn.setText("Pay £" + cartAdapter.getTotal());
+            payBtn.setText(String.format(Locale.UK, "Pay £%.2f", cartAdapter.getTotal()));
 
             dialogPlus.show();
 
@@ -151,7 +133,7 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
                     alertBuilder.setPositiveButton("Confirm", (dialogInterface, i) -> {
                         dialogInterface.dismiss();
-                        Toast.makeText(getContext(), "Thank you for purchase", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Your order was placed", Toast.LENGTH_LONG).show();
                         processOrder(cardForm.getPostalCode());
                         clearCart();
                         dialogPlus.dismiss();
@@ -190,8 +172,6 @@ public class CartFragment extends Fragment implements CartTotalListener {
             });
         }
 
-
-
         binding.totalTxt.setText("Total: £0.00");
     }
 
@@ -199,26 +179,28 @@ public class CartFragment extends Fragment implements CartTotalListener {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("AddToCart");
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
         DatabaseReference videogamesRef = FirebaseDatabase.getInstance().getReference("videogames");
-        mDatabase.addValueEventListener(new ValueEventListener() {
+
+        Query userCartQuery = mDatabase.orderByChild("userId").equalTo(user.getUid());
+        userCartQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
                     String orderId = mDatabase.push().getKey();
                     String userId = user.getUid();
+                    String gameId = cartItemSnapshot.child("gameId").getValue(String.class);
                     String userEmail = user.getEmail();
                     String name = cartItemSnapshot.child("name").getValue(String.class);
                     String platform = cartItemSnapshot.child("platform").getValue(String.class);
                     int currQty = cartItemSnapshot.child("currQty").getValue(Integer.class);
                     double price = cartItemSnapshot.child("price").getValue(Double.class);
 
-                    Order order = new Order(userId, userEmail, name, currQty, price, platform, postCode, currentDateTime);
+                    Order order = new Order(userId, userEmail, gameId, name, currQty, price, platform, postCode, currentDateTime);
 
-                    if (orderId != null)
+                    if (orderId != null) {
                         orderRef.child(orderId).setValue(order);
-
-                    updateQty(videogamesRef, name, currQty);
+                        updateQty(videogamesRef, currQty, gameId);
+                    }
                 }
-                mDatabase.removeEventListener(this);
             }
 
             @Override
@@ -229,44 +211,19 @@ public class CartFragment extends Fragment implements CartTotalListener {
         });
     }
 
-//    private void showData() {
-//        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("AddToCart");
-////        DatabaseReference vidGamesRef = FirebaseDatabase.getInstance().getReference("videogames");
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
-//                    String userId = user.getUid();
-//                    String userEmail = user.getEmail();
-//                    String name = cartItemSnapshot.child("name").getValue(String.class);
-//                    String platform = cartItemSnapshot.child("platform").getValue(String.class);
-//                    int currQty = cartItemSnapshot.child("currQty").getValue(Integer.class);
-//                    double price = cartItemSnapshot.child("price").getValue(Double.class);
-//
-//                    Order order = new Order(userId, userEmail, name, currQty, price, platform, "nw72ql", currentDateTime);
-//
-//                    Log.d("Order", ""+order);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("Firebase", "Error showing data: " + error.getMessage());
-//            }
-//        });
-//    }
-    private void updateQty(DatabaseReference reference, String name, int currQty) {
-        reference.orderByChild("name").equalTo(name).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void updateQty(DatabaseReference reference, int currQty, String gameId) {
+        reference.child(gameId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
-                    String gameId = gameSnapshot.getKey();
-                    int totalQty = gameSnapshot.child("qty").getValue(Integer.class);
+                if (snapshot.exists()) {
+                    int totalQty = snapshot.child("qty").getValue(Integer.class);
                     int newQty = totalQty - currQty;
 
-                    gameSnapshot.child("qty").getRef().setValue(newQty);
+                    snapshot.child("qty").getRef().setValue(newQty);
 
                     Log.d("videogamesRef", gameId + ": " + totalQty);
+                } else {
+                    Log.d("updateQty", "Game with ID " + gameId + " not found");
                 }
             }
 
@@ -275,5 +232,50 @@ public class CartFragment extends Fragment implements CartTotalListener {
                 Log.d("updateQty", "Error updatingQty: " + error.getMessage());
             }
         });
+    }
+
+    private void showData() {
+        DatabaseReference videogamesRef = FirebaseDatabase.getInstance().getReference("videogames");
+        videogamesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
+                    String gameId = gameSnapshot.getKey();
+                    int totalQty = gameSnapshot.child("qty").getValue(Integer.class);
+                    String name = gameSnapshot.child("name").getValue(String.class);
+
+                    Log.d("showData", "gameID: " + gameId + ", name: " + name
+                            + ", totalQty: " + totalQty);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("showData", "Error showing data: " + error.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        cartAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        cartAdapter.stopListening();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onCartTotalUpdated(double total) {
+        binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", total));
+    }
+
+    @Override
+    public void onCartQuantityUpdated(double qty) {
+
     }
 }

@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setHasOptionsMenu(true); // Enable options menu for the fragment
+        setHasOptionsMenu(true);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 

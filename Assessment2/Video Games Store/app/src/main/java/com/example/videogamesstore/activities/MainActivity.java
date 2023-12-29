@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements CartTotalListener
                 return true;
             });
         }
+
+
     }
 
     private void replaceFragments(Fragment fragment) {
@@ -59,5 +61,10 @@ public class MainActivity extends AppCompatActivity implements CartTotalListener
     @Override
     public void onCartTotalUpdated(double total) {
         Log.d("Cart Total", "Updated total: " + total);
+    }
+
+    @Override
+    public void onCartQuantityUpdated(double qty) {
+
     }
 }

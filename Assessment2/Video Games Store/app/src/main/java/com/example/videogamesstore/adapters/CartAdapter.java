@@ -1,6 +1,5 @@
 package com.example.videogamesstore.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
-// TODO create a method to update qty
 public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myViewHolder>{
     private double total;
     private int newQty;
@@ -43,14 +41,13 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
         holder.qty.setText(String.valueOf(model.getCurrQty()));
+        model.setPosition(position);
 
         double itemTotal = model.getPrice() * model.getCurrQty();
         holder.price.setText(String.format(Locale.UK,"%.2f", itemTotal));
-
         newQty = Integer.parseInt(holder.qty.getText().toString());
 
         totalList.add(itemTotal);
-
         total = calculateTotal(totalList);
         updateTotal(total);
 
@@ -71,13 +68,12 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
 
             if (model.getQty() > newQty) {
                 totalList.remove(Double.parseDouble(holder.price.getText().toString()));
-
                 newQty++;
+
                 holder.qty.setText(String.valueOf(newQty));
                 cartItems.child("currQty").setValue(newQty);
 
                 total = calculateTotal(totalList);
-
             }
         });
 
@@ -86,13 +82,11 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
 
             if (newQty > 1) {
                 totalList.remove(Double.parseDouble(holder.price.getText().toString()));
-
                 newQty--;
 
                 holder.qty.setText(String.valueOf(newQty));
                 cartItems.child("currQty").setValue(newQty);
                 total = calculateTotal(totalList);
-
             } else
                 removeFromCart(cartItems, holder);
         });
@@ -129,22 +123,17 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
     private void removeFromCart(DatabaseReference cartItems, @NonNull myViewHolder holder) {
         totalList.remove(Double.parseDouble(holder.price.getText().toString()));
 
+
         cartItems.removeValue();
-        Toast.makeText(holder.name.getContext(), holder.name.getText().toString() + " was removed from cart ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(holder.name.getContext(),
+                holder.name.getText().toString() + " was removed from cart ", Toast.LENGTH_SHORT).show();
+
         total = calculateTotal(totalList);
         updateTotal(total);
-
-        Log.d("Total list", ""+totalList);
-        Log.d("Total variable remove", ""+total);
     }
 
 
     private void updateTotal(double total) {
-        if (cartTotalListener != null) {
-            cartTotalListener.onCartTotalUpdated(total);
-        }
-    }
-    public void updateTotalInAdapter() {
         if (cartTotalListener != null) {
             cartTotalListener.onCartTotalUpdated(total);
         }

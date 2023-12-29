@@ -3,6 +3,7 @@ package com.example.videogamesstore.models;
 public class Order {
     private String userId;
     private String userEmail;
+    private String gameId;
     private String name;
     private int qty;
     private double price;
@@ -14,9 +15,10 @@ public class Order {
 
     }
 
-    public Order(String userId, String userEmail, String name, int qty, double price, String platform, String postcode, String orderDateTime) {
+    public Order(String userId, String userEmail, String gameId, String name, int qty, double price, String platform, String postcode, String orderDateTime) {
         this.userId = userId;
         this.userEmail = userEmail;
+        this.gameId = gameId;
         this.name = name;
         this.qty = qty;
         this.price = price;
@@ -39,6 +41,14 @@ public class Order {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     public String getName() {
