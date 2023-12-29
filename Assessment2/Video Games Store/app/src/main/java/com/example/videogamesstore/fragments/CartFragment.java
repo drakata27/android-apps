@@ -3,6 +3,7 @@ package com.example.videogamesstore.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +55,6 @@ public class CartFragment extends Fragment implements CartTotalListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentCartBinding.inflate(inflater, container, false);
-        binding.totalTxt.postDelayed(() -> binding.totalTxt.setText("Total: £"
-                + String.format(Locale.UK, "%.2f", cartAdapter.getTotal())), 300);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -76,6 +75,11 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
         cartAdapter = new CartAdapter(options, this);
         binding.recyclerView.setAdapter(cartAdapter);
+
+        binding.totalTxt.postDelayed(() -> binding.totalTxt.setText("Total: £"
+                + String.format(Locale.UK, "%.2f", cartAdapter.getTotal())), 300);
+
+
 
         binding.checkoutBtn.setOnClickListener(v -> {
             if(user == null ) {
@@ -101,8 +105,21 @@ public class CartFragment extends Fragment implements CartTotalListener {
         if (getContext() != null) {
             final DialogPlus dialogPlus = DialogPlus.newDialog(getContext())
                     .setContentHolder(new ViewHolder(R.layout.checkout_popup))
-                    .setExpanded(true, 1200)
                     .create();
+
+            // Calculate 2/3 of the screen height
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+
+            int screenHeight = displayMetrics.heightPixels;
+            int dialogHeight = (int) (screenHeight * (2.0 / 3.0));
+
+            View contentView = dialogPlus.getHolderView();
+            ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+            layoutParams.height = dialogHeight;
+            contentView.setLayoutParams(layoutParams);
+
+            dialogPlus.show();
+            //end
 
             View view = dialogPlus.getHolderView();
             view.setPadding(26, 16, 26, 16);
@@ -234,6 +251,7 @@ public class CartFragment extends Fragment implements CartTotalListener {
         });
     }
 
+    //Method used for debugging
     private void showData() {
         DatabaseReference videogamesRef = FirebaseDatabase.getInstance().getReference("videogames");
         videogamesRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -272,10 +290,5 @@ public class CartFragment extends Fragment implements CartTotalListener {
     @Override
     public void onCartTotalUpdated(double total) {
         binding.totalTxt.setText("Total: £" + String.format(Locale.UK, "%.2f", total));
-    }
-
-    @Override
-    public void onCartQuantityUpdated(double qty) {
-
     }
 }

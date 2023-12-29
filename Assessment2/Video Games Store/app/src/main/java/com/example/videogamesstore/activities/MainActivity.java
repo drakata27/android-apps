@@ -62,9 +62,4 @@ public class MainActivity extends AppCompatActivity implements CartTotalListener
     public void onCartTotalUpdated(double total) {
         Log.d("Cart Total", "Updated total: " + total);
     }
-
-    @Override
-    public void onCartQuantityUpdated(double qty) {
-
-    }
 }

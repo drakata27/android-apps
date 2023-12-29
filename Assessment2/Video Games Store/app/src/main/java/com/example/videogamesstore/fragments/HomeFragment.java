@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.videogamesstore.models.Game;
 import com.example.videogamesstore.R;
 import com.example.videogamesstore.adapters.MainAdapter;
 import com.example.videogamesstore.databinding.FragmentHomeBinding;
+import com.example.videogamesstore.models.Game;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        binding.textViewHome.setVisibility(View.VISIBLE);
         inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) item.getActionView();
@@ -81,15 +82,60 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                txtSearch(query);
+                if (query.isEmpty()) {
+                    binding.textViewHome.setVisibility(View.VISIBLE);
+                    int marginTopInDp = 55; // Change this value as needed
+
+                    float density = getResources().getDisplayMetrics().density;
+                    int marginTopInPixels = (int) (marginTopInDp * density);
+
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.recyclerView.getLayoutParams();
+                    layoutParams.topMargin = marginTopInPixels;
+                    binding.recyclerView.setLayoutParams(layoutParams);
+                } else {
+                    binding.textViewHome.setVisibility(View.GONE);
+                    // Remove top margin from recyclerView
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.recyclerView.getLayoutParams();
+                    layoutParams.topMargin = 0;
+                    binding.recyclerView.setLayoutParams(layoutParams);
+                    txtSearch(query);
+                }
                 return false;
             }
+
+        });
+
+        searchView.setOnCloseListener(() -> {
+            binding.textViewHome.setVisibility(View.VISIBLE);
+            int marginTopInDp = 55;
+
+            float density = getResources().getDisplayMetrics().density;
+            int marginTopInPixels = (int) (marginTopInDp * density);
+
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.recyclerView.getLayoutParams();
+            layoutParams.topMargin = marginTopInPixels;
+            binding.recyclerView.setLayoutParams(layoutParams);
+
+            FirebaseRecyclerOptions<Game> options =
+                    new FirebaseRecyclerOptions.Builder<Game>()
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("videogames")
+                                    .orderByChild("qty")
+                                    .startAt(1), Game.class)
+                            .build();
+
+            mainAdapter = new MainAdapter(options);
+            mainAdapter.startListening();
+            binding.recyclerView.setAdapter(mainAdapter);
+
+            return false;
         });
 
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void txtSearch(String str) {
+        binding.textViewHome.setVisibility(View.GONE);
+
         FirebaseRecyclerOptions<Game> options =
                 new FirebaseRecyclerOptions.Builder<Game>()
                         .setQuery(FirebaseDatabase
