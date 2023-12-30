@@ -4,12 +4,12 @@ public class Game {
 
     private String userId, gameId, name, platform, imgurl;
     private Double price;
-    private int qty, currQty, position;
+    private int qty, currQty;
 
     public Game() {}
 
     public Game(String userId, String gameId, String name, String platform,
-                String imgurl, Double price, int qty, int currQty, int position) {
+                String imgurl, Double price, int qty, int currQty) {
         this.userId = userId;
         this.gameId = gameId;
         this.name = name;
@@ -18,7 +18,6 @@ public class Game {
         this.price = price;
         this.qty = qty;
         this.currQty = currQty;
-        this.position = position;
     }
 
     public String getUserId() {
@@ -63,13 +62,5 @@ public class Game {
 
     public int getQty() {
         return qty;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 }

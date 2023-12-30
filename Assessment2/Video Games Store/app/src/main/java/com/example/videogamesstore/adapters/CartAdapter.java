@@ -41,7 +41,6 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
         holder.qty.setText(String.valueOf(model.getCurrQty()));
-        model.setPosition(position);
 
         double itemTotal = model.getPrice() * model.getCurrQty();
         holder.price.setText(String.format(Locale.UK,"%.2f", itemTotal));

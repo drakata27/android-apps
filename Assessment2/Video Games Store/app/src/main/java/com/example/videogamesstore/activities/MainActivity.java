@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements CartTotalListener
             });
         }
 
-
     }
 
     private void replaceFragments(Fragment fragment) {

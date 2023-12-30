@@ -22,7 +22,7 @@
         android:layout_below="@id/account_textview"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:text="You are not signed in"
+        android:text="example@email.com"
         android:textSize="26sp" />
 
     <LinearLayout
@@ -33,34 +33,44 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/my_orders_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/rounded_ui_button"
-            android:text="Sign In"
-            android:layout_margin="15dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_ui_button"
+            android:backgroundTint="@color/green"
+            android:text="My orders"
+            android:layout_margin="15dp"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/reset_password_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/rounded_ui_button"
             android:backgroundTint="@color/orange"
-            android:text="Register"
+            android:text="Reset Password"
             android:layout_margin="15dp"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
+        <Button
+            android:id="@+id/sign_out_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_ui_button"
+            android:text="Sign Out"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:textSize="15sp" />
+
     </LinearLayout>
-
-
-
-
 
 </RelativeLayout>

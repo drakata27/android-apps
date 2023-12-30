@@ -22,8 +22,6 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
 
-//        binding.backArrow.setOnClickListener(v -> finish());
-
         binding.registerTextview.setOnClickListener(v -> startActivity(new Intent(SignInActivity.this, RegisterActivity.class)));
         binding.resetPasswordTextview.setOnClickListener(v -> startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class)));
 
@@ -34,14 +32,15 @@ public class SignInActivity extends AppCompatActivity {
             password = String.valueOf(binding.password.getText());
 
             if (TextUtils.isEmpty(email)) {
-                binding.emailTextInpLay.setError("Field cannot be empty");
+                binding.emailTextInpLay.setError("Email cannot be empty");
                 binding.progressBar.setVisibility(View.GONE);
                 return;
             }
 
             if (TextUtils.isEmpty(password)) {
-                binding.passwordTextInpLay.setError("Field cannot be empty");
+                binding.passwordTextInpLay.setError("Password cannot be empty");
                 binding.progressBar.setVisibility(View.GONE);
+                return;
             }
 
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {

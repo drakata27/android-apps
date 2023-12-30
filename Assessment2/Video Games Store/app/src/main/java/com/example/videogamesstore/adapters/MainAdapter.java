@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -108,6 +109,13 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
 
                                     if (cartId != null)
                                         reference.child(cartId).setValue(cartItems);
+
+                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(holder.name.getContext());
+                                    alertBuilder.setTitle(model.getName());
+                                    alertBuilder.setMessage(model.getName()+ " was added to cart");
+                                    alertBuilder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
+                                    AlertDialog alertDialog = alertBuilder.create();
+                                    alertDialog.show();
                                 }
                             }
 
