@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.videogamesstore.R;
 import com.example.videogamesstore.interfaces.CartTotalListener;
 import com.example.videogamesstore.models.Game;
-import com.example.videogamesstore.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +28,7 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
     private double total;
     private int newQty;
     private final CartTotalListener cartTotalListener;
-    ArrayList<Double> totalList = new ArrayList<>();
+    private final ArrayList<Double> totalList = new ArrayList<>();
 
     public CartAdapter(@NonNull FirebaseRecyclerOptions<Game> options, CartTotalListener cartTotalListener  ) {
         super(options);
@@ -64,7 +64,6 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
 
         holder.incrementQty.setOnClickListener(v -> {
             newQty = Integer.parseInt(holder.qty.getText().toString());
-
             if (model.getQty() > newQty) {
                 totalList.remove(Double.parseDouble(holder.price.getText().toString()));
                 newQty++;
@@ -86,6 +85,7 @@ public class CartAdapter extends FirebaseRecyclerAdapter <Game, CartAdapter.myVi
                 holder.qty.setText(String.valueOf(newQty));
                 cartItems.child("currQty").setValue(newQty);
                 total = calculateTotal(totalList);
+
             } else
                 removeFromCart(cartItems, holder);
         });
