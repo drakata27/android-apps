@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     tools:context=".fragments.AccountFragment">
 
@@ -10,7 +11,7 @@
         android:id="@+id/account_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textStyle="bold"
         android:gravity="center"
         android:text="My Account"
         android:textSize="36sp" />
@@ -39,8 +40,8 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/rounded_ui_button"
-            android:backgroundTint="@color/green"
-            android:text="My orders"
+            app:backgroundTint="@color/green"
+            android:text="My Orders"
             android:layout_margin="15dp"
             android:textColor="@color/white"
             android:textSize="15sp" />
@@ -52,7 +53,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/rounded_ui_button"
-            android:backgroundTint="@color/orange"
+            app:backgroundTint="@color/orange"
             android:text="Reset Password"
             android:layout_margin="15dp"
             android:textColor="@color/white"
@@ -63,12 +64,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/rounded_ui_button"
-            android:text="Sign Out"
             android:layout_margin="15dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_ui_button"
+            app:backgroundTint="@color/red"
+            android:text="Sign Out"
             android:textColor="@color/white"
-            android:backgroundTint="@color/red"
             android:textSize="15sp" />
 
     </LinearLayout>
