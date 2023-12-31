@@ -15,16 +15,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.videogamesstore.R;
+import com.example.videogamesstore.activities.MainActivity;
 import com.example.videogamesstore.adapters.MainAdapter;
 import com.example.videogamesstore.databinding.FragmentHomeBinding;
 import com.example.videogamesstore.models.Game;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private MainAdapter mainAdapter;
+    private BottomNavigationView bottomNavigationView;
 
     @Nullable
     @Override
@@ -48,8 +51,13 @@ public class HomeFragment extends Fragment {
                         .startAt(1), Game.class)
                         .build();
 
+        MainActivity activity = (MainActivity) getActivity();
 
-        mainAdapter = new MainAdapter(options);
+        if (activity!=null) {
+            bottomNavigationView = activity.findViewById(R.id.bottomNavigationView);
+        }
+
+        mainAdapter = new MainAdapter(options, getParentFragmentManager(), bottomNavigationView);
         binding.recyclerView.setAdapter(mainAdapter);
     }
 
@@ -68,6 +76,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         binding.textViewHome.setVisibility(View.VISIBLE);
+
         inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) item.getActionView();
@@ -123,7 +132,7 @@ public class HomeFragment extends Fragment {
                                     .startAt(1), Game.class)
                             .build();
 
-            mainAdapter = new MainAdapter(options);
+            mainAdapter = new MainAdapter(options, getParentFragmentManager(), bottomNavigationView);
             mainAdapter.startListening();
             binding.recyclerView.setAdapter(mainAdapter);
 
@@ -146,7 +155,7 @@ public class HomeFragment extends Fragment {
                                 startAt(str)
                                 .endAt(str + "~"), Game.class).build();
 
-        mainAdapter = new MainAdapter(options);
+        mainAdapter = new MainAdapter(options, getParentFragmentManager(), bottomNavigationView);
         mainAdapter.startListening();
         binding.recyclerView.setAdapter(mainAdapter);
     }

@@ -11,13 +11,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.videogamesstore.R;
+import com.example.videogamesstore.fragments.CartFragment;
 import com.example.videogamesstore.models.Game;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,12 +34,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myViewHolder> {
-    FirebaseAuth auth;
-    FirebaseUser user;
+    private FirebaseUser user;
+    private final FragmentManager fragmentManager;
+    private final BottomNavigationView bottomNavigationView;
 
 
-    public MainAdapter(@NonNull FirebaseRecyclerOptions<Game> options) {
+    public MainAdapter(@NonNull FirebaseRecyclerOptions<Game> options, FragmentManager fragmentManager, BottomNavigationView bottomNavigationView) {
         super(options);
+        this.fragmentManager = fragmentManager;
+        this.bottomNavigationView = bottomNavigationView;
     }
 
     @Override
@@ -45,7 +52,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
         holder.price.setText(String.valueOf(model.getPrice()));
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
         DatabaseReference videoGames = FirebaseDatabase.getInstance().getReference("videogames");
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         Glide.with(holder.img.getContext())
@@ -110,12 +117,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                                     if (cartId != null)
                                         reference.child(cartId).setValue(cartItems);
 
-                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(holder.name.getContext());
-                                    alertBuilder.setTitle(model.getName());
-                                    alertBuilder.setMessage(model.getName()+ " was added to cart");
-                                    alertBuilder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
-                                    AlertDialog alertDialog = alertBuilder.create();
-                                    alertDialog.show();
+                                    showAlert(holder, model);
                                 }
                             }
 
@@ -162,5 +164,30 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
 
             addToCartBtn = itemView.findViewById(R.id.addToCartBtn);
         }
+    }
+
+    private void showAlert(@NonNull myViewHolder holder, @NonNull Game model) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(holder.name.getContext());
+        alertBuilder.setTitle(model.getName());
+        alertBuilder.setMessage(model.getName()+ " was added to cart");
+        alertBuilder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
+
+        alertBuilder.setNegativeButton("Go to Cart", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+            goToCart();
+        });
+
+        alertBuilder.setIcon(R.drawable.add_to_cart);
+        AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.show();
+    }
+
+    private void goToCart() {
+        CartFragment cartFragment = new CartFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout_start, cartFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        bottomNavigationView.setSelectedItemId(R.id.cart);
     }
 }

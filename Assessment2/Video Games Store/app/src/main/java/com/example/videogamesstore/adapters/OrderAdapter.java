@@ -14,8 +14,6 @@ import com.example.videogamesstore.R;
 import com.example.videogamesstore.models.Order;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,8 +21,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class OrderAdapter extends FirebaseRecyclerAdapter<Order, OrderAdapter.myViewHolder> {
-    FirebaseAuth auth;
-    FirebaseUser user;
     public OrderAdapter(@NonNull FirebaseRecyclerOptions<Order> options) {
         super(options);
     }
@@ -52,9 +48,6 @@ public class OrderAdapter extends FirebaseRecyclerAdapter<Order, OrderAdapter.my
             String formattedDateTime = outputFormat.format(date);
             holder.dateTime.setText(formattedDateTime);
         }
-
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
 
         Glide.with(holder.img.getContext())
                 .load(model.getImgurl())

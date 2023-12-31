@@ -27,19 +27,17 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
 public class AccountFragment extends Fragment {
-    private FragmentAccountBinding binding;
     private OrderAdapter orderAdapter;
-    FirebaseAuth auth;
-    FirebaseUser user;
+    private FirebaseAuth auth;
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentAccountBinding.inflate(inflater, container, false);
+        com.example.videogamesstore.databinding.FragmentAccountBinding binding = FragmentAccountBinding.inflate(inflater, container, false);
         auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
 
-        if (user!=null) {
+        if (user !=null) {
             binding.userTextview.setText(user.getEmail());
         }
 
@@ -66,6 +64,7 @@ public class AccountFragment extends Fragment {
 
         binding.myOrdersBtn.setOnClickListener(v -> showOrders());
 
+        assert user != null;
         FirebaseRecyclerOptions<Order> options =
                 new FirebaseRecyclerOptions.Builder<Order>()
                         .setQuery(FirebaseDatabase.getInstance()

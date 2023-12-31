@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3c591dc3-a1ce-4429-8eb8-1c5cb80e9c38" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/adapters/OrderAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/my_orders_popup.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/my_orders_recycler_view_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/activities/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/activities/RegisterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/activities/SignInActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/activities/SignInActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/adapters/MainAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/adapters/MainAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/fragments/AccountFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/fragments/AccountFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/fragments/CartFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/fragments/CartFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/models/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/videogamesstore/models/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_account.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/CartModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/CartModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/DrinkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/DrinkModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/ICartLoadListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/ICartLoadListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/IDrinkLoadListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/IDrinkLoadListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/MyDrinkAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/MyDrinkAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/SpaceItemDecoration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/java/com/example/addtocart/SpaceItemDecoration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/res/layout/layout_drink_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/AddToCartTutorial/app/src/main/res/layout/layout_drink_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/java/com/example/week7shoppingcart/BasketActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/java/com/example/week7shoppingcart/BasketActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/java/com/example/week7shoppingcart/CustomAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/java/com/example/week7shoppingcart/CustomAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/java/com/example/week7shoppingcart/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/java/com/example/week7shoppingcart/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/res/layout/activity_basket.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/res/layout/activity_basket.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/Week7ShoppingCart/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Resources/viewBinding.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../Resources/viewBinding.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/aleksandardrakaliyski/.android/avd/Pixel_3a_API_34_extension_level_7_arm64-v8a.avd]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="resourceFile" />
+        <option value="Class" />
+        <option value="layoutResourceFile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2ZLaeVOjWRVfagj5Gp9x5dHKaBG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/draka/OneDrive - University of West London/Year 2 2023-24/Mobile Web App Dev/AndroidStudioApps/Assessment2/Video Games Store/app/libs&quot;,
+    &quot;memory.settings.postsync.last.time.stamp&quot;: &quot;1703866269591&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\draka\OneDrive - University of West London\Year 2 2023-24\Mobile Web App Dev\AndroidStudioApps\Assessment2\Video Games Store\app\libs" />
+    </key>
+    <key name="android.template.-1443238817">
+      <recent name="com.example.videogamesstore.activities" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\draka\OneDrive - University of West London\Year 2 2023-24\Mobile Web App Dev\AndroidStudioApps\Assessment2\Video Games Store\app\libs" />
+      <recent name="C:\Users\draka\OneDrive - University of West London\Year 2 2023-24\Mobile Web App Dev\AndroidStudioApps\Assessment2\Video Games Store\app" />
+    </key>
+    <key name="android.template.-1709041505">
+      <recent name="com.example.videogamesstore" />
+    </key>
+    <key name="android.template.-1870091219">
+      <recent name="com.example.videogamesstore.activities" />
+    </key>
+    <key name="android.template.1081643796">
+      <recent name="com.example.videogamesstore.activities" />
+    </key>
+    <key name="android.template.1020353487">
+      <recent name="com.example.videogamesstore" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="Video_Games_Store.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Hybrid>
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3c591dc3-a1ce-4429-8eb8-1c5cb80e9c38" name="Changes" comment="" />
+      <created>1702203908776</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702203908776</updated>
+    </task>
+    <servers />
+  </component>
+</project>

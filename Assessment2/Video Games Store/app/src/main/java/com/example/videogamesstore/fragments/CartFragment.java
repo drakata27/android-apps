@@ -44,11 +44,8 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
     private FragmentCartBinding binding;
     private CartAdapter cartAdapter;
-    FirebaseAuth auth;
-    FirebaseUser user;
-    Calendar calendar;
-    Date currentDate;
-    String currentDateTime;
+    private FirebaseUser user;
+    private String currentDateTime;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -56,13 +53,13 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
         binding = FragmentCartBinding.inflate(inflater, container, false);
 
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        calendar = Calendar.getInstance();
-        currentDate = calendar.getTime();
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
         currentDateTime = currentDate.toString();
 
         FirebaseRecyclerOptions<Game> options =
