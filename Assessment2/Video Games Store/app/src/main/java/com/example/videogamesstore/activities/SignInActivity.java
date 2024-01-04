@@ -13,14 +13,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        mAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance(); // Initialise an instance of the FirebaseAuth class
 
         binding.registerTextview.setOnClickListener(v -> startActivity(new Intent(SignInActivity.this, RegisterActivity.class)));
         binding.resetPasswordTextview.setOnClickListener(v -> startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class)));
@@ -43,7 +43,7 @@ public class SignInActivity extends AppCompatActivity {
                 return;
             }
 
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 binding.progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     Toast.makeText(SignInActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
