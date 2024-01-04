@@ -6,5 +6,6 @@
     <color name="blue">#567AF4</color>
     <color name="orange">#E89213</color>
     <color name="red">#CC3D10</color>
-
+    <color name="backgroundPopup">#FFFFFFFF</color>
+    <color name="primaryText">#FF000000</color>
 </resources>
