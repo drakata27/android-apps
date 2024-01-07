@@ -50,8 +50,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
         holder.name.setText(model.getName());
         holder.platform.setText(model.getPlatform());
         holder.price.setText(String.valueOf(model.getPrice()));
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AddToCart");
-        DatabaseReference videoGames = FirebaseDatabase.getInstance().getReference("videogames");
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("AddToCart");
+        DatabaseReference videoGamesRef = FirebaseDatabase.getInstance().getReference("videogames");
         FirebaseAuth auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -71,7 +71,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                 userId = user.getUid();
             }
 
-            Query query = reference.orderByChild("name").equalTo(model.getName());
+            Query query = cartRef.orderByChild("name").equalTo(model.getName());
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -92,14 +92,13 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                     if (itemAlreadyInCart) {
                         Toast.makeText(holder.name.getContext(), model.getName() + " is already in the cart", Toast.LENGTH_SHORT).show();
                     } else {
-                        videoGames.orderByChild("name").equalTo(model.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        videoGamesRef.orderByChild("name").equalTo(model.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
                                     model.setUserId(userId);
                                     model.setGameId(gameSnapshot.getKey());
-
-                                    String cartId = reference.push().getKey();
+                                    String cartId = cartRef.push().getKey();
 
                                     HashMap<String, Object> cartItems = new HashMap<>();
                                     cartItems.put("gameId", model.getGameId());
@@ -111,11 +110,8 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                                     cartItems.put("qty", model.getQty());
                                     cartItems.put("currQty", model.getCurrQty());
 
-                                    Log.d("userId", userId);
-                                    Log.d("model.getUserId()", model.getUserId());
-
                                     if (cartId != null)
-                                        reference.child(cartId).setValue(cartItems);
+                                        cartRef.child(cartId).setValue(cartItems);
 
                                     showAlert(holder, model);
                                 }
@@ -128,16 +124,12 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
                         });
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.e("Firebase", "Error checking cart: " + error.getMessage());
                 }
             });
-
-
         });
-
     }
 
     @NonNull
@@ -172,7 +164,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<Game, MainAdapter.myVie
         alertBuilder.setMessage(model.getName()+ " was added to cart");
         alertBuilder.setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
 
-        alertBuilder.setNegativeButton("Go to Cart", (dialogInterface, i) -> {
+        alertBuilder.setNeutralButton("Go to Cart", (dialogInterface, i) -> {
             dialogInterface.dismiss();
             goToCart();
         });

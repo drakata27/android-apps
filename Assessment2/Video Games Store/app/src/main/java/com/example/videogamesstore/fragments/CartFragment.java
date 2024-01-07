@@ -95,23 +95,8 @@ public class CartFragment extends Fragment implements CartTotalListener {
     @SuppressLint("SetTextI18n")
     private void showCheckout() {
         if (getContext() != null) {
-            final DialogPlus dialogPlus = DialogPlus.newDialog(getContext())
-                    .setContentHolder(new ViewHolder(R.layout.checkout_popup))
-                    .create();
 
-            // Calculate 2/3 of the screen height
-            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-
-            int screenHeight = displayMetrics.heightPixels;
-            int dialogHeight = (int) (screenHeight * (2.0 / 3.0));
-
-            View contentView = dialogPlus.getHolderView();
-            ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-            layoutParams.height = dialogHeight;
-            contentView.setLayoutParams(layoutParams);
-
-            dialogPlus.show();
-            //end
+            final DialogPlus dialogPlus = createCheckoutDialog();
 
             View view = dialogPlus.getHolderView();
             view.setPadding(26, 16, 26, 16);
@@ -131,29 +116,51 @@ public class CartFragment extends Fragment implements CartTotalListener {
 
             dialogPlus.show();
 
-            payBtn.setOnClickListener(v -> {
-                if (cardForm.isValid()) {
-                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-                    alertBuilder.setTitle("Confirm before purchase");
-                    alertBuilder.setMessage("Card number: " + cardForm.getCardNumber() + "\n" +
-                            "Card expiry date: " + Objects.requireNonNull(cardForm.getExpirationDateEditText().getText()) + "\n" +
-                            "Card CVV: " + cardForm.getCvv() + "\n" +
-                            "Postal code: " + cardForm.getPostalCode());
+            payBtn.setOnClickListener(v -> processPayment(cardForm, dialogPlus));
+        }
+    }
 
-                    alertBuilder.setPositiveButton("Confirm", (dialogInterface, i) -> {
-                        dialogInterface.dismiss();
-                        Toast.makeText(getContext(), "Your order was placed", Toast.LENGTH_LONG).show();
-                        processOrder(cardForm.getPostalCode());
-                        clearCart();
-                        dialogPlus.dismiss();
-                    });
-                    alertBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss());
-                    AlertDialog alertDialog = alertBuilder.create();
-                    alertDialog.show();
-                } else {
-                    Toast.makeText(getContext(), "Please complete the form", Toast.LENGTH_LONG).show();
-                }
+    private DialogPlus createCheckoutDialog() {
+        DialogPlus dialogPlus = DialogPlus.newDialog(getContext())
+                .setContentHolder(new ViewHolder(R.layout.checkout_popup))
+                .create();
+
+        // Calculate 2/3 of the screen height
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int screenHeight = displayMetrics.heightPixels;
+        int dialogHeight = (int) (screenHeight * (2.0 / 3.0));
+
+        View contentView = dialogPlus.getHolderView();
+        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+        layoutParams.height = dialogHeight;
+
+        contentView.setLayoutParams(layoutParams);
+        dialogPlus.show();
+
+        return dialogPlus;
+    }
+
+    private void processPayment(CardForm cardForm, DialogPlus dialogPlus) {
+        if (cardForm.isValid() && getContext() != null) {
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+            alertBuilder.setTitle("Confirm before purchase");
+            alertBuilder.setMessage("Card number: " + cardForm.getCardNumber() + "\n" +
+                    "Card expiry date: " + Objects.requireNonNull(cardForm.getExpirationDateEditText().getText()) + "\n" +
+                    "Card CVV: " + cardForm.getCvv() + "\n" +
+                    "Postal code: " + cardForm.getPostalCode());
+
+            alertBuilder.setPositiveButton("Confirm", (dialogInterface, i) -> {
+                dialogInterface.dismiss();
+                Toast.makeText(getContext(), "Your order was placed", Toast.LENGTH_LONG).show();
+                processOrder(cardForm.getPostalCode());
+                clearCart();
+                dialogPlus.dismiss();
             });
+            alertBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss());
+            AlertDialog alertDialog = alertBuilder.create();
+            alertDialog.show();
+        } else {
+            Toast.makeText(getContext(), "Please complete the form", Toast.LENGTH_LONG).show();
         }
     }
 
