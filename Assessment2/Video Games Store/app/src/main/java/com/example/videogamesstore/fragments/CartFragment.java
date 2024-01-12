@@ -192,16 +192,16 @@ public class CartFragment extends Fragment implements CartTotalListener {
     }
 
     private void processOrder(String postCode) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("AddToCart");
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("AddToCart");
         DatabaseReference orderRef = FirebaseDatabase.getInstance().getReference("Orders");
         DatabaseReference videogamesRef = FirebaseDatabase.getInstance().getReference("videogames");
 
-        Query userCartQuery = mDatabase.orderByChild("userId").equalTo(user.getUid());
+        Query userCartQuery = cartRef.orderByChild("userId").equalTo(user.getUid());
         userCartQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
-                    String orderId = mDatabase.push().getKey();
+                    String orderId = cartRef.push().getKey();
                     String userId = user.getUid();
                     String gameId = cartItemSnapshot.child("gameId").getValue(String.class);
                     String userEmail = user.getEmail();

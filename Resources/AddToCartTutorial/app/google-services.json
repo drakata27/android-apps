@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "202393280009",
+    "project_id": "add-to-cart-952fb",
+    "storage_bucket": "add-to-cart-952fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202393280009:android:d18dd39180b4a78d5d22d8",
+        "android_client_info": {
+          "package_name": "com.example.addtocart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJWgEIkfyHG2dCuNJNQ-2Yq3Inqqu0z0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

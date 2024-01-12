@@ -102,6 +102,7 @@ public class AccountFragment extends Fragment {
             View contentView = dialogPlus.getHolderView();
             ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
             layoutParams.height = dialogHeight;
+
             contentView.setLayoutParams(layoutParams);
 
             RecyclerView recyclerView = contentView.findViewById(R.id.myOrdersRecyclerView);
@@ -109,7 +110,6 @@ public class AccountFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             dialogPlus.show();
-            //end
 
             View view = dialogPlus.getHolderView();
             view.setPadding(26, 16, 26, 16);
