@@ -1,4 +1,4 @@
-## Assessment 1 (Applications)
+## Assessment 1 (5 Applications)
 https://www.youtube.com/watch?v=j2j8d_VmUcQ
 
 ## Assessment 2 (Videogames store)
